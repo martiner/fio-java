@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	
+	<xs:include schemaLocation="type.xsd"/>
+	
+	<xs:element name="Import">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Orders" minOccurs="1" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DomesticTransaction" type="DomesticTransaction" minOccurs="0" maxOccurs="unbounded" />
+							<xs:element name="T2Transaction" type="T2Transaction" minOccurs="0" maxOccurs="unbounded" />
+							<xs:element name="ForeignTransaction" type="ForeignTransaction" minOccurs="0" maxOccurs="unbounded" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>	
+	
+	<!-- Tuzemska transakce -->
+	<xs:complexType name="DomesticTransaction">
+		<xs:sequence>
+			<xs:element name="accountFrom" type="account_fio_type" minOccurs="1" maxOccurs="1" />
+			<xs:element name="currency" type="currency_type" minOccurs="1" maxOccurs="1" />
+			<xs:element name="amount" type="amount_type" minOccurs="1" maxOccurs="1" />
+			<xs:element name="accountTo" type="account_type" minOccurs="1" maxOccurs="1" />
+			<xs:element name="bankCode" type="bank_code_type" minOccurs="1" maxOccurs="1" />
+			<xs:element name="ks" type="ks_type" minOccurs="0" maxOccurs="1" />
+			<xs:element name="vs" type="vs_type" minOccurs="0" maxOccurs="1" />
+			<xs:element name="ss" type="ss_type" minOccurs="0" maxOccurs="1" />
+			<xs:element name="date" type="xs:date" minOccurs="1" maxOccurs="1" />
+			<xs:element name="messageForRecipient" type="message_type" minOccurs="0" maxOccurs="1" />
+			<xs:element name="comment" type="user_identification_type" minOccurs="0" maxOccurs="1" />
+			<xs:element name="paymentReason" type="payment_reason_type" minOccurs="0" maxOccurs="1" />
+			<xs:element name="paymentType" type="payment_type_domestic_type" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>	
+
+	<!-- T2 transakce -->
+	<xs:complexType name="T2Transaction">
+		<xs:sequence>
+			<xs:element name="accountFrom" type="account_fio_type" minOccurs="1" maxOccurs="1" />
+			<xs:element name="currency" type="currency_type" minOccurs="1" maxOccurs="1" />
+			<xs:element name="amount" type="amount_type" minOccurs="1" maxOccurs="1" />
+			<xs:element name="accountTo" type="iban_type" minOccurs="1" maxOccurs="1" />
+			<xs:element name="ks" type="ks_type" minOccurs="0" maxOccurs="1" />
+			<xs:element name="vs" type="vs_type" minOccurs="0" maxOccurs="1" />
+			<xs:element name="ss" type="ss_type" minOccurs="0" maxOccurs="1" />
+			<xs:element name="bic" type="bic_type" minOccurs="1" maxOccurs="1" />
+			<xs:element name="date" type="xs:date" minOccurs="1" maxOccurs="1" />
+			<xs:element name="comment" type="user_identification_type" minOccurs="0" maxOccurs="1" />
+			<xs:element name="benefName" type="string_50_type" minOccurs="1" maxOccurs="1" />
+			<xs:element name="benefStreet" type="string_50_type" minOccurs="0" maxOccurs="1" />
+			<xs:element name="benefCity" type="string_50_type" minOccurs="0" maxOccurs="1" />
+			<xs:element name="benefCountry" type="country_type" minOccurs="0" maxOccurs="1" />
+			<xs:element name="remittanceInfo1" type="remittance_info_type" minOccurs="0" maxOccurs="1" />
+			<xs:element name="remittanceInfo2" type="remittance_info_type" minOccurs="0" maxOccurs="1" />
+			<xs:element name="remittanceInfo3" type="remittance_info_type" minOccurs="0" maxOccurs="1" />
+			<xs:element name="paymentReason" type="payment_reason_type" minOccurs="0" maxOccurs="1" />
+			<xs:element name="paymentType" type="payment_type_t2_type" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Zahranicni transakce -->
+	<xs:complexType name="ForeignTransaction">
+		<xs:sequence>
+			<xs:element name="accountFrom" type="account_fio_type" minOccurs="1" maxOccurs="1" />
+			<xs:element name="currency" type="currency_type" minOccurs="1" maxOccurs="1" />
+			<xs:element name="amount" type="amount_type" minOccurs="1" maxOccurs="1" />
+			<xs:element name="accountTo" type="iban_type" minOccurs="1" maxOccurs="1" />
+			<xs:element name="bic" type="bic_type" minOccurs="1" maxOccurs="1" />
+			<xs:element name="date" type="xs:date" minOccurs="1" maxOccurs="1" />
+			<xs:element name="comment" type="user_identification_type" minOccurs="0" maxOccurs="1" />
+			<xs:element name="benefName" type="string_50_type" minOccurs="1" maxOccurs="1" />
+			<xs:element name="benefStreet" type="string_50_type" minOccurs="1" maxOccurs="1" />
+			<xs:element name="benefCity" type="string_50_type" minOccurs="1" maxOccurs="1" />
+			<xs:element name="benefCountry" type="country_type" minOccurs="1" maxOccurs="1" />
+			<xs:element name="remittanceInfo1" type="remittance_info_type" minOccurs="1" maxOccurs="1" />
+			<xs:element name="remittanceInfo2" type="remittance_info_type" minOccurs="0" maxOccurs="1" />
+			<xs:element name="remittanceInfo3" type="remittance_info_type" minOccurs="0" maxOccurs="1" />
+			<xs:element name="remittanceInfo4" type="remittance_info_type" minOccurs="0" maxOccurs="1" />
+			<xs:element name="detailsOfCharges" type="details_charges_type" minOccurs="0" maxOccurs="1" />
+			<xs:element name="paymentReason" type="payment_reason_type" minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

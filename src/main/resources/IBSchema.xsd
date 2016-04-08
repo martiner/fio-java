@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.fio.cz/IBSchema" elementFormDefault="qualified"
+	xmlns:tns="http://www.fio.cz/ib_api/IBSchema">
+
+	<xs:element name="AccountStatement">
+		<xs:complexType>
+			<xs:sequence>
+			
+				<!-- INFO -->
+				<xs:element name="Info" minOccurs="1" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="accountId" type="xs:string" minOccurs="0" maxOccurs="1" />
+							<xs:element name="bankId" type="xs:string" minOccurs="0" maxOccurs="1" />
+							<xs:element name="currency" type="xs:string" minOccurs="0" maxOccurs="1" />
+							
+							<xs:element name="iban" type="xs:string" minOccurs="0" maxOccurs="1" />
+							<xs:element name="bic" type="xs:string" minOccurs="0" maxOccurs="1" />
+							
+							
+							<xs:element name="openingBalance" type="xs:decimal" minOccurs="0" maxOccurs="1" />
+							<xs:element name="closingBalance" type="xs:decimal" minOccurs="0" maxOccurs="1" />							
+							
+							<xs:element name="dateStart" type="xs:date" minOccurs="0" maxOccurs="1" />
+							<xs:element name="dateEnd" type="xs:date" minOccurs="0" maxOccurs="1" />	
+							
+							<xs:element name="yearList" type="xs:nonNegativeInteger" minOccurs="0" maxOccurs="1" />
+							<xs:element name="idList" type="xs:nonNegativeInteger" minOccurs="0" maxOccurs="1" />													
+							
+							<xs:element name="idFrom" type="xs:nonNegativeInteger" minOccurs="0" maxOccurs="1" />
+							<xs:element name="idTo" type="xs:nonNegativeInteger" minOccurs="0" maxOccurs="1" />
+							<xs:element name="idLastDownload" type="xs:nonNegativeInteger" minOccurs="0" maxOccurs="1" />
+							
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+
+				<!-- TRANSAKCE -->
+				<xs:element name="TransactionList" minOccurs="0" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Transaction" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<!-- POVINNE POLOZKY -->
+									
+										
+										<!-- ID POHYBU -->
+										<xs:element name="column_22" minOccurs="1" maxOccurs="1">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="name" type="xs:token" use="required"></xs:attribute>
+														<xs:attribute name="id" type="xs:nonNegativeInteger" use="required"></xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>										
+										</xs:element>
+										
+										<!-- DATUM -->
+										<xs:element name="column_0" minOccurs="1" maxOccurs="1">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:date">
+														<xs:attribute name="name" type="xs:token" use="required"></xs:attribute>
+														<xs:attribute name="id" type="xs:nonNegativeInteger" use="required"></xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>										
+										</xs:element>
+										
+										<!-- OBJEM -->
+										<xs:element name="column_1" minOccurs="1" maxOccurs="1">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:decimal">
+														<xs:attribute name="name" type="xs:token" use="required"></xs:attribute>
+														<xs:attribute name="id" type="xs:nonNegativeInteger" use="required"></xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>										
+										</xs:element>
+										
+										<!-- MENA -->
+										<xs:element name="column_14" minOccurs="1" maxOccurs="1">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="name" type="xs:token" use="required"></xs:attribute>
+														<xs:attribute name="id" type="xs:nonNegativeInteger" use="required"></xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>										
+										</xs:element>
+										
+										
+										<!-- NEPOVINNE POLOZKY -->
+										
+										<!-- PROTIUCET -->
+										<xs:element name="column_2" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="name" type="xs:token" use="required"></xs:attribute>
+														<xs:attribute name="id" type="xs:nonNegativeInteger" use="required"></xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>										
+										
+										<!-- NAZEV PROTIUCTU -->
+										<xs:element name="column_10" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="name" type="xs:token" use="required"></xs:attribute>
+														<xs:attribute name="id" type="xs:nonNegativeInteger" use="required"></xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>										
+										
+										<!-- KOD BANKY -->
+										<xs:element name="column_3" minOccurs="0" maxOccurs="1" >
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="name" type="xs:token" use="required"></xs:attribute>
+														<xs:attribute name="id" type="xs:nonNegativeInteger" use="required"></xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>										
+										
+										<!-- NAZEV BANKY -->										
+										<xs:element name="column_12" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="name" type="xs:token" use="required"></xs:attribute>
+														<xs:attribute name="id" type="xs:nonNegativeInteger" use="required"></xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+										
+										<!-- KS -->
+										<xs:element name="column_4" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="name" type="xs:token" use="required"></xs:attribute>
+														<xs:attribute name="id" type="xs:nonNegativeInteger" use="required"></xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>										
+										
+										<!-- VS -->
+										<xs:element name="column_5" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="name" type="xs:token" use="required"></xs:attribute>
+														<xs:attribute name="id" type="xs:nonNegativeInteger" use="required"></xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>	
+										</xs:element>									
+										
+										<!-- SS -->
+										<xs:element name="column_6" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="name" type="xs:token" use="required"></xs:attribute>
+														<xs:attribute name="id" type="xs:nonNegativeInteger" use="required"></xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>										
+										</xs:element>
+										
+										<!-- UID -->
+										<xs:element name="column_7" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="name" type="xs:token" use="required"></xs:attribute>
+														<xs:attribute name="id" type="xs:nonNegativeInteger" use="required"></xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+										
+										<!-- ZPRAVA PRO PRIJEMCE -->
+										<xs:element name="column_16" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="name" type="xs:token" use="required"></xs:attribute>
+														<xs:attribute name="id" type="xs:nonNegativeInteger" use="required"></xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>	
+										</xs:element>										
+										
+										<!-- TYP POHYBU -->
+										<xs:element name="column_8" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="name" type="xs:token" use="required"></xs:attribute>
+														<xs:attribute name="id" type="xs:nonNegativeInteger" use="required"></xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>	
+										</xs:element>									
+										
+										<!-- PROVEDL -->
+										<xs:element name="column_9" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="name" type="xs:token" use="required"></xs:attribute>
+														<xs:attribute name="id" type="xs:nonNegativeInteger" use="required"></xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>		
+										</xs:element>								
+										
+										<!-- UPRESNENI -->
+										<xs:element name="column_18" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="name" type="xs:token" use="required"></xs:attribute>
+														<xs:attribute name="id" type="xs:nonNegativeInteger" use="required"></xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>	
+										</xs:element>										
+										
+										<!-- KOMENTAR -->										
+										<xs:element name="column_25" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="name" type="xs:token" use="required"></xs:attribute>
+														<xs:attribute name="id" type="xs:nonNegativeInteger" use="required"></xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>										
+										
+										<!-- BIC -->
+										<xs:element name="column_26" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="name" type="xs:token" use="required"></xs:attribute>
+														<xs:attribute name="id" type="xs:nonNegativeInteger" use="required"></xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>					
+										</xs:element>					
+										
+										<!-- ID POKYNU -->
+										<xs:element name="column_17" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:long">
+														<xs:attribute name="name" type="xs:token" use="required"></xs:attribute>
+														<xs:attribute name="id" type="xs:nonNegativeInteger" use="required"></xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>										
+										</xs:element>
+										
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

@@ -1,0 +1,9 @@
+language: java
+install: true
+script: mvn verify javadoc:javadoc
+jdk:
+  - openjdk7
+branches:
+  only:
+     - master
+sudo: false

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+	<xs:include schemaLocation="type.xsd" />
+
+	<xs:element name="responseImport">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="result" minOccurs="1" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="errorCode" type="xs:unsignedShort" minOccurs="1" maxOccurs="1" />
+							<xs:element name="idInstruction" type="xs:nonNegativeInteger" minOccurs="0" maxOccurs="1" />
+							<xs:element name="status" type="status" minOccurs="1" maxOccurs="1" />
+							<xs:element name="message" type="xs:string" minOccurs="0" maxOccurs="1" />
+
+							<xs:element name="sums" minOccurs="0" maxOccurs="1">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="sum" minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="sumCredit" type="amount_type" minOccurs="0" maxOccurs="1" />
+													<xs:element name="sumDebet" type="amount_type" minOccurs="0" maxOccurs="1" />
+												</xs:sequence>
+												<xs:attribute name="id" type="xs:string" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element name="ordersDetails" minOccurs="0" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="detail" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="messages" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="message" minOccurs="0" maxOccurs="unbounded">
+														<xs:complexType>
+															<xs:simpleContent>
+																<xs:extension base="xs:string">
+																	<xs:attribute name="status" type="status" />
+																	<xs:attribute name="errorCode" type="xs:nonNegativeInteger" />
+																</xs:extension>
+															</xs:simpleContent>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="id" type="xs:nonNegativeInteger" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+
+
+
+</xs:schema>

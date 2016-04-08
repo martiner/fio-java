@@ -1,0 +1,31 @@
+<AccountStatement>
+    <Info>
+        <accountId>2111111111</accountId>
+        <bankId>2010</bankId>
+        <currency>CZK</currency>
+        <iban>CZ7920100000002111111111</iban>
+        <bic>FIOBCZPPXXX</bic>
+        <openingBalance>7356.22</openingBalance>
+        <closingBalance>7362.22</closingBalance>
+        <yearList>2012</yearList>
+        <idList>4</idList>
+    </Info>
+    <TransactionList>
+        <Transaction>
+            <column_22 id="22" name="ID pohybu">1147301403</column_22>
+            <column_0 id="0" name="Datum">2012-06-30+02:00</column_0>
+            <column_1 id="1" name="Objem">7.76</column_1>
+            <column_14 id="14" name="Měna">CZK</column_14>
+            <column_8 id="8" name="Typ">Připsaný úrok</column_8>
+            <column_17 id="17" name="ID pokynu">2099310186</column_17>
+        </Transaction>
+        <Transaction>
+            <column_22 id="22" name="ID pohybu">1147301404</column_22>
+            <column_0 id="0" name="Datum">2012-06-30+02:00</column_0>
+            <column_1 id="1" name="Objem">-1.00</column_1>
+            <column_14 id="14" name="Měna">CZK</column_14>
+            <column_8 id="8" name="Typ">Odvod daně z úroků</column_8>
+            <column_17 id="17" name="ID pokynu">2099310186</column_17>
+        </Transaction>
+    </TransactionList>
+</AccountStatement>

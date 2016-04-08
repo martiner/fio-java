@@ -1,0 +1,45 @@
+<AccountStatement>
+    <Info>
+        <accountId>2111111111</accountId>
+        <bankId>2010</bankId>
+        <currency>CZK</currency>
+        <iban>CZ7920100000002111111111</iban>
+        <bic>FIOBCZPPXXX</bic>
+        <openingBalance>7356.22</openingBalance>
+        <closingBalance>7321.22</closingBalance>
+        <dateStart>2012-07-01+02:00</dateStart>
+        <dateEnd>2012-07-31+02:00</dateEnd>
+        <idFrom>1147608196</idFrom>
+        <idTo>1147608197</idTo>
+    </Info>
+    <TransactionList>
+        <Transaction>
+            <column_22 id="22" name="ID pohybu">1147608196</column_22>
+            <column_0 id="0" name="Datum">2012-07-27+02:00</column_0>
+            <column_1 id="1" name="Objem">-15.00</column_1>
+            <column_14 id="14" name="Měna">CZK</column_14>
+            <column_2 id="2" name="Protiúčet">2222233333</column_2>
+            <column_3 id="3" name="Kód banky">2010</column_3>
+            <column_12 id="12" name="Název banky">Fio banka, a.s.</column_12>
+            <column_7 id="7" name="Uživatelská identifikace"></column_7>
+            <column_8 id="8" name="Typ">Platba převodem uvnitř banky</column_8>
+            <column_9 id="9" name="Provedl">Novák, Jan</column_9>
+            <column_25 id="25" name="Komentář">Můj test</column_25>
+            <column_17 id="17" name="ID pokynu">2102392862</column_17>
+        </Transaction>
+        <Transaction>
+            <column_22 id="22" name="ID pohybu">1147608197</column_22>
+            <column_0 id="0" name="Datum">2012-07-27+02:00</column_0>
+            <column_1 id="1" name="Objem">-20.00</column_1>
+            <column_14 id="14" name="Měna">CZK</column_14>
+            <column_2 id="2" name="Protiúčet">2222233333</column_2>
+            <column_3 id="3" name="Kód banky">2010</column_3>
+            <column_12 id="12" name="Název banky">Fio banka, a.s.</column_12>
+            <column_7 id="7" name="Uživatelská identifikace"></column_7>
+            <column_8 id="8" name="Typ">Platba převodem uvnitř banky</column_8>
+            <column_9 id="9" name="Provedl">Novák, Jan</column_9>
+            <column_25 id="25" name="Komentář"></column_25>
+            <column_17 id="17" name="ID pokynu">2102392863</column_17>
+        </Transaction>
+    </TransactionList>
+</AccountStatement>
