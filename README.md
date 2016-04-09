@@ -1,5 +1,7 @@
 # Fio Bank Java Client
 
+A Java SDK for accessing the [REST API](http://www.fio.cz/bank-services/internetbanking-api) of [Fio Bank](https://www.fio.cz/).
+
 ## Usage
 
 The *Fio Bank Java Client* is available in Maven Central Repository, to use it from Maven add to `pom.xml`:
@@ -8,7 +10,7 @@ The *Fio Bank Java Client* is available in Maven Central Repository, to use it f
 <dependency>
     <groupId>cz.geek</groupId>
     <artifactId>fio-java</artifactId>
-    <version>${version}</version>
+    <version>0.1.0</version>
 </dependency>
 ```
 
