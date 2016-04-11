@@ -113,7 +113,7 @@ class FioConversionService {
     }
 
     private static LocalDate toLocalDate(final XMLGregorianCalendar date) {
-        return date != null && date.toGregorianCalendar() != null ? new LocalDate(date.toGregorianCalendar().getTime()) : null;
+        return date != null ? new LocalDate(date.getYear(), date.getMonth(), date.getDay()) : null;
     }
 
 }
