@@ -4,7 +4,7 @@
 
     <groupId>cz.geek</groupId>
     <artifactId>fio-java</artifactId>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>0.1.2-SNAPSHOT</version>
     <name>${project.artifactId}</name>
     <description>Fio Bank Java Client</description>
 
@@ -29,10 +29,13 @@
         <developer>
             <name>Martin Caslavsky</name>
         </developer>
+        <developer>
+            <name>Jaromir Sima</name>
+        </developer>
     </developers>
 
     <properties>
-        <targetJdk>1.7</targetJdk>
+        <targetJdk>1.8</targetJdk>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <httpclient.version>4.3.3</httpclient.version>

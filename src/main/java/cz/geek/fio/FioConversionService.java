@@ -106,6 +106,17 @@ class FioConversionService {
                 if (transaction.getColumn25() != null) {
                     target.setKomentar(transaction.getColumn25().getValue());
                 }
+                if (transaction.getColumn5() != null) {
+                    target.setVariabilniSymbol(transaction.getColumn5().getValue());
+                }
+                if (transaction.getColumn4() != null) {
+                    target.setKonstantniSymbol(transaction.getColumn4().getValue());
+                }
+                if (transaction.getColumn6() != null) {
+                    target.setSpecifickySymbol(transaction.getColumn6().getValue());
+                }
+
+
                 transactions.add(target);
             }
             return transactions;

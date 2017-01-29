@@ -33,6 +33,9 @@ public class FioExtractorTest {
         final FioTransaction transaction = statement.getTransactions().iterator().next();
         assertThat(transaction.getIdPohybu(), is("1147301403"));
         assertThat(transaction.getDatum(), is(new LocalDate(2012, 6, 30)));
+        assertEquals(transaction.getVariabilniSymbol(), "9998887770");
+        assertEquals(transaction.getSpecifickySymbol(), "666555444");
+        assertEquals(transaction.getKonstantniSymbol(), "0111");
     }
 
     static class FakeClientHttpResponse extends AbstractClientHttpResponse {
