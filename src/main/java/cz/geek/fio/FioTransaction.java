@@ -20,6 +20,9 @@ public class FioTransaction {
     private String provedl;
     private String komentar;
     private long idPokynu;
+    private String variabilniSymbol;
+    private String konstantniSymbol;
+    private String specifickySymbol;
 
     public String getIdPohybu() {
         return idPohybu;
@@ -116,5 +119,31 @@ public class FioTransaction {
     void setIdPokynu(final long idPokynu) {
         this.idPokynu = idPokynu;
     }
+
+    public String getVariabilniSymbol() {
+        return variabilniSymbol;
+    }
+
+    public void setVariabilniSymbol(String variabilniSymbol) {
+        this.variabilniSymbol = variabilniSymbol;
+    }
+
+
+    public String getKonstantniSymbol() {
+        return konstantniSymbol;
+    }
+
+    public void setKonstantniSymbol(String konstantniSymbol) {
+        this.konstantniSymbol = konstantniSymbol;
+    }
+
+    public String getSpecifickySymbol() {
+        return specifickySymbol;
+    }
+
+    public void setSpecifickySymbol(String specifickySymbol) {
+        this.specifickySymbol = specifickySymbol;
+    }
+
 
 }
