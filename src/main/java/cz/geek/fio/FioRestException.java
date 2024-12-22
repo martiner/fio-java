@@ -1,6 +1,7 @@
 package cz.geek.fio;
 
-import java.io.UnsupportedEncodingException;
+import org.springframework.http.HttpStatusCode;
+
 import java.nio.charset.Charset;
 
 public class FioRestException extends FioException {
@@ -13,9 +14,9 @@ public class FioRestException extends FioException {
 
     private final Charset responseCharset;
 
-    public FioRestException(final int statusCode, final String statusText, final byte[] responseBody, final Charset responseCharset) {
-        super(statusCode + " " + statusText);
-        this.statusCode = statusCode;
+    public FioRestException(final HttpStatusCode statusCode, final String statusText, final byte[] responseBody, final Charset responseCharset) {
+        super(statusCode.value() + " " + statusText);
+        this.statusCode = statusCode.value();
         this.statusText = statusText;
         this.responseBody = responseBody;
         this.responseCharset = responseCharset;

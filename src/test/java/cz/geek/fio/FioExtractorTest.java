@@ -2,19 +2,18 @@ package cz.geek.fio;
 
 import org.joda.time.LocalDate;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.client.AbstractClientHttpResponse;
-import org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.client.ClientHttpResponse;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigInteger;
 
 import static cz.geek.fio.FioExtractor.statementExtractor;
 import static cz.geek.fio.ResourceUtils.readFromResource;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
 
 public class FioExtractorTest {
 
@@ -35,15 +34,15 @@ public class FioExtractorTest {
         assertThat(transaction.getDatum(), is(new LocalDate(2012, 6, 30)));
     }
 
-    static class FakeClientHttpResponse extends AbstractClientHttpResponse {
+    static class FakeClientHttpResponse implements ClientHttpResponse {
 
         private final HttpHeaders httpHeaders = new HttpHeaders() {{
             add("content-type", "text/xml");
         }};
 
         @Override
-        public int getRawStatusCode() throws IOException {
-            return 200;
+        public HttpStatusCode getStatusCode() throws IOException {
+            return HttpStatus.OK;
         }
 
         @Override

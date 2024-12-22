@@ -5,8 +5,9 @@ import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.Source;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamSource;
@@ -18,11 +19,10 @@ import java.io.StringReader;
 class NamespaceIgnoringJaxb2HttpMessageConverter extends Jaxb2RootElementHttpMessageConverter {
 
     protected Source processSource(Source source) {
-        if (source instanceof StreamSource) {
-            StreamSource streamSource = (StreamSource) source;
+        if (source instanceof StreamSource streamSource) {
             InputSource inputSource = new InputSource(streamSource.getInputStream());
             try {
-                XMLReader xmlReader = XMLReaderFactory.createXMLReader();
+                XMLReader xmlReader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
                 String featureName = "http://xml.org/sax/features/external-general-entities";
                 xmlReader.setFeature(featureName, isProcessExternalEntities());
                 if (!isProcessExternalEntities()) {
@@ -37,6 +37,8 @@ class NamespaceIgnoringJaxb2HttpMessageConverter extends Jaxb2RootElementHttpMes
             catch (SAXException ex) {
                 logger.warn("Processing of external entities could not be disabled", ex);
                 return source;
+            } catch (ParserConfigurationException e) {
+                throw new RuntimeException("Unable to create parser", e);
             }
         } else {
             return source;

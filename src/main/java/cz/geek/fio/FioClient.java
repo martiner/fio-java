@@ -1,31 +1,34 @@
 package cz.geek.fio;
 
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.config.ConnectionConfig;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.DefaultUriBuilderFactory;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.OutputStream;
 import java.math.BigInteger;
+import java.util.concurrent.TimeUnit;
 
 import static cz.geek.fio.FioExtractor.statementExtractor;
 import static org.apache.commons.lang3.Validate.notEmpty;
 import static org.apache.commons.lang3.Validate.notNull;
 import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
 
 /**
  * Fio Bank Client
  */
 public class FioClient {
 
-    private static final String ROOT = "{protocol}://{hostport}/ib_api/rest/";
+    private static final String ROOT = "/ib_api/rest/";
     private static final String STATEMENT_BY_ID = ROOT + "by-id/{token}/{year}/{id}/transactions.{format}";
     private static final String STATEMENT_PERIODS = ROOT + "periods/{token}/{start}/{end}/transactions.{format}";
     private static final String STATEMENT_LAST = ROOT + "last/{token}/transactions.{format}";
@@ -35,8 +38,6 @@ public class FioClient {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormat.forPattern("yyyy-MM-dd");
 
     private final String token;
-    private final String protocol;
-    private final String hostport;
 
     private final RestTemplate restTemplate;
     private final HttpMessageConverter<Object> jaxb2Converter;
@@ -56,22 +57,27 @@ public class FioClient {
      * @param settings HTTP settings
      */
     public FioClient(final String token, FioClientSettings settings) {
-        this("https", "www.fio.cz", 443, token, settings);
+        this("https", "www.fio.cz", null, token, settings);
     }
 
-    FioClient(final String protocol, final String host, final int port, final String token, final FioClientSettings settings) {
-        this.protocol = notEmpty(protocol);
-        this.hostport = notEmpty(host) + ":" + port;
+    FioClient(final String protocol, final String host, final Integer port, final String token, final FioClientSettings settings) {
+        final UriComponentsBuilder base = UriComponentsBuilder.newInstance()
+                .scheme(notEmpty(protocol))
+                .host(notEmpty(host));
+        if (port != null) {
+            base.port(port);
+        }
         this.token = notEmpty(token);
-        this.restTemplate = createRestTemplate(settings);
+        this.restTemplate = createRestTemplate(base, settings);
         this.jaxb2Converter = new NamespaceIgnoringJaxb2HttpMessageConverter();
         this.conversionService = new FioConversionService();
     }
 
-    private RestTemplate createRestTemplate(final FioClientSettings settings) {
+    private RestTemplate createRestTemplate(final UriComponentsBuilder base, final FioClientSettings settings) {
         final HttpClient httpClient = createHttpClientBuilder(settings).build();
         final RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory(httpClient));
         restTemplate.setErrorHandler(new FioErrorHandler());
+        restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(base));
         return restTemplate;
     }
 
@@ -82,15 +88,20 @@ public class FioClient {
         connectionManager.setDefaultMaxPerRoute(settings.getMaxConnections());
         connectionManager.setMaxTotal(settings.getMaxConnections());
 
-        final RequestConfig.Builder requestConfig = RequestConfig.copy(RequestConfig.DEFAULT);
-        requestConfig.setConnectTimeout(settings.getConnectionTimeout());
-        requestConfig.setConnectionRequestTimeout(settings.getConnectionRequestTimeout());
-        requestConfig.setSocketTimeout(settings.getSocketTimeout());
+        final ConnectionConfig connectionConfig = ConnectionConfig.copy(ConnectionConfig.DEFAULT)
+                .setConnectTimeout(settings.getConnectionTimeout(), TimeUnit.MILLISECONDS)
+                .setSocketTimeout(settings.getSocketTimeout(), TimeUnit.MILLISECONDS)
+                .build();
+        connectionManager.setDefaultConnectionConfig(connectionConfig);
+
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setConnectionRequestTimeout(settings.getConnectionTimeout(), TimeUnit.MILLISECONDS)
+                .build();
 
         return HttpClientBuilder.create()
                 // todo .setUserAgent(getUserAgent())
                 .setConnectionManager(connectionManager)
-                .setDefaultRequestConfig(requestConfig.build());
+                .setDefaultRequestConfig(requestConfig);
     }
 
     /**
@@ -105,7 +116,7 @@ public class FioClient {
         notNull(end);
         return restTemplate.execute(STATEMENT_PERIODS, GET, null,
                 statementExtractor(jaxb2Converter, conversionService),
-                protocol, hostport, token, DATE_FORMATTER.print(start), DATE_FORMATTER.print(end), ExportFormat.xml);
+                token, DATE_FORMATTER.print(start), DATE_FORMATTER.print(end), ExportFormat.xml);
     }
 
     /**
@@ -121,7 +132,7 @@ public class FioClient {
         notNull(end);
         notNull(format);
         restTemplate.execute(STATEMENT_PERIODS, GET, null, new OutputStreamResponseExtractor(target),
-                protocol, hostport, token, DATE_FORMATTER.print(start), DATE_FORMATTER.print(end), format);
+                token, DATE_FORMATTER.print(start), DATE_FORMATTER.print(end), format);
     }
 
     /**
@@ -134,7 +145,7 @@ public class FioClient {
     public FioAccountStatement getStatement(final int year, final int id) {
         return restTemplate.execute(STATEMENT_BY_ID, GET, null,
                 statementExtractor(jaxb2Converter, conversionService),
-                protocol, hostport, token, year, id, ExportFormat.xml);
+                token, year, id, ExportFormat.xml);
     }
 
     /**
@@ -148,7 +159,7 @@ public class FioClient {
     public void exportStatement(final int year, final int id, final ExportFormat format, final OutputStream target) {
         notNull(format);
         restTemplate.execute(STATEMENT_BY_ID, GET, null, new OutputStreamResponseExtractor(target),
-                protocol, hostport, token, year, id, format);
+                token, year, id, format);
     }
 
     /**
@@ -159,7 +170,7 @@ public class FioClient {
     public FioAccountStatement getStatement() {
         return restTemplate.execute(STATEMENT_LAST, GET, null,
                 statementExtractor(jaxb2Converter, conversionService),
-                protocol, hostport, token, ExportFormat.xml);
+                token, ExportFormat.xml);
     }
 
     /**
@@ -171,7 +182,7 @@ public class FioClient {
     public void exportStatement(final ExportFormat format, final OutputStream target) {
         notNull(format);
         restTemplate.execute(STATEMENT_LAST, GET, null, new OutputStreamResponseExtractor(target),
-                protocol, hostport, token, format);
+                token, format);
     }
 
     /**
@@ -192,7 +203,7 @@ public class FioClient {
     public void setLast(final String id) {
         notEmpty(id);
         restTemplate.execute(LAST_ID, GET, null, null,
-                protocol, hostport, token, id);
+                token, id);
     }
 
     /**
@@ -203,7 +214,7 @@ public class FioClient {
     public void setLast(final LocalDate date) {
         notNull(date);
         restTemplate.execute(LAST_DATE, GET, null, null,
-                protocol, hostport, token, DATE_FORMATTER.print(date));
+                token, DATE_FORMATTER.print(date));
     }
 
 }
