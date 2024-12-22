@@ -28,7 +28,7 @@ FioAccountStatement statement = fio.getStatement(2016, 1);
 
 Get account statement within **the given period**:
 ```java
-FioAccountStatement statement = fio.getStatement(new LocalDate(2016, 1, 1), new LocalDate(2016, 1, 31));
+FioAccountStatement statement = fio.getStatement(LocalDate.of(2016, 1, 1), LocalDate.of(2016, 1, 31));
 ```
 
 Get account statement from the **last download**:
@@ -45,7 +45,7 @@ fio.getStatement(2016, 1, ExportFormat.pdf, outputStream);
 
 Export account statement within **the given period**:
 ```java
-fio.getStatement(new LocalDate(2016, 1, 1), new LocalDate(2016, 1, 31), ExportFormat.pdf, outputStream);
+fio.getStatement(LocalDate.of(2016, 1, 1), LocalDate.of(2016, 1, 31), ExportFormat.pdf, outputStream);
 ```
 
 Export account statement from the **last download**:
@@ -57,7 +57,7 @@ fio.getStatement(ExportFormat.pdf, outputStream);
 
 Set last downloaded statement **by date**:
 ```java
-fio.setLast(new LocalDate(2016, 1, 1));
+fio.setLast(LocalDate.of(2016, 1, 1));
 ```
 
 Set last downloaded statement **by transaction id**:
@@ -81,4 +81,3 @@ fio.setLast("1147608198");
 
 ## License
 The *Fio Bank Java Client* is free and open-source software under [BSD License](LICENSE.txt).
-

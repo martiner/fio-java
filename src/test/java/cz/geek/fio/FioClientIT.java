@@ -1,19 +1,17 @@
 package cz.geek.fio;
 
-import org.joda.time.LocalDate;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.math.BigInteger;
+import java.time.LocalDate;
 
 import static net.jadler.Jadler.closeJadler;
 import static net.jadler.Jadler.initJadler;
 import static net.jadler.Jadler.onRequest;
 import static net.jadler.Jadler.port;
-import static org.apache.commons.lang3.Validate.notEmpty;
-import static org.apache.commons.lang3.Validate.notNull;
 
 public class FioClientIT {
 
@@ -61,7 +59,7 @@ public class FioClientIT {
                 .withContentType("text/xml")
                 .withStatus(200);
 
-        fio.exportStatement(new LocalDate(2016, 1, 1), new LocalDate(2016, 1, 2), ExportFormat.xml, new ByteArrayOutputStream());
+        fio.exportStatement(LocalDate.of(2016, 1, 1), LocalDate.of(2016, 1, 2), ExportFormat.xml, new ByteArrayOutputStream());
     }
 
     @Test
@@ -74,7 +72,7 @@ public class FioClientIT {
                 .withContentType("text/xml")
                 .withStatus(200);
 
-        fio.getStatement(new LocalDate(2016, 1, 1), new LocalDate(2016, 1, 2));
+        fio.getStatement(LocalDate.of(2016, 1, 1), LocalDate.of(2016, 1, 2));
     }
 
     @Test
@@ -122,7 +120,7 @@ public class FioClientIT {
                 .respond()
                 .withStatus(200);
 
-        fio.setLast(new LocalDate(2016, 1, 2));
+        fio.setLast(LocalDate.of(2016, 1, 2));
     }
 
     @AfterMethod
