@@ -20,7 +20,7 @@ public class FioClientIT {
     @BeforeMethod
     public void commonSetUp() {
         initJadler();
-        fio = new FioClient("http", "localhost", port(), "token", new FioClientSettings());
+        fio = new FioClient("http", "localhost", port(), new FioClientSettings("token"));
     }
 
     @Test

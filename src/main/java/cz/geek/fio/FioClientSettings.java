@@ -4,11 +4,12 @@ import lombok.Data;
 
 import java.util.concurrent.TimeUnit;
 
+import static org.apache.commons.lang3.Validate.notEmpty;
 import static org.springframework.util.Assert.isTrue;
 
 /**
  * Gather various additional settings of {@link FioClient}. Can be passed to the {@link FioClient} constructor to tune up
- * it's behaviour.
+ * its behaviour.
  * <p>
  * Settings are applied only once at the beginning. Changing this bean after it's passed to {@link FioClient} has
  * no effect.
@@ -16,11 +17,31 @@ import static org.springframework.util.Assert.isTrue;
 @Data
 public class FioClientSettings {
 
+    private String token;
     private int maxConnections = 20;
     private int connectionTimeout = secondsToMillis(10);
     private int connectionRequestTimeout = secondsToMillis(10);
     private int socketTimeout = secondsToMillis(60);
 
+    public FioClientSettings(String token) {
+        this.token = notEmpty(token);
+    }
+
+    /**
+     * API token
+     * @return API token
+     */
+    public String getToken() {
+        return token;
+    }
+
+    /**
+     * Sets API token
+     * @param token API token
+     */
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     /**
      * Set maximum number of connections used. This applies same for connections per host as for total connections.
