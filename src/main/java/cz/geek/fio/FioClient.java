@@ -1,5 +1,6 @@
 package cz.geek.fio;
 
+import lombok.NonNull;
 import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.config.RequestConfig;
@@ -47,26 +48,25 @@ public class FioClient {
      * @param token API token
      */
     public FioClient(final String token) {
-        this(token, new FioClientSettings());
+        this(new FioClientSettings(token));
     }
 
     /**
      * Constructs a new Fio Client
-     * @param token API token
      * @param settings HTTP settings
      */
-    public FioClient(final String token, FioClientSettings settings) {
-        this("https", "www.fio.cz", null, token, settings);
+    public FioClient(@NonNull FioClientSettings settings) {
+        this("https", "www.fio.cz", null, settings);
     }
 
-    FioClient(final String protocol, final String host, final Integer port, final String token, final FioClientSettings settings) {
+    FioClient(final String protocol, final String host, final Integer port, final FioClientSettings settings) {
         final UriComponentsBuilder base = UriComponentsBuilder.newInstance()
                 .scheme(notEmpty(protocol))
                 .host(notEmpty(host));
         if (port != null) {
             base.port(port);
         }
-        this.token = notEmpty(token);
+        this.token = notEmpty(settings.getToken());
         this.restTemplate = createRestTemplate(base, settings);
         this.jaxb2Converter = new NamespaceIgnoringJaxb2HttpMessageConverter();
         this.conversionService = new FioConversionService();
