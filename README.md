@@ -14,7 +14,11 @@ The *Fio Bank Java Client* is available in Maven Central Repository, to use it f
 </dependency>
 ```
 
-### Construct the FioClient
+### Spring Boot autoconfiguration
+
+The provided autoconfiguration will create the `FioClient` bean with the `fio.client.token` property.
+
+### Construct the FioClient manually
 ```java
 FioClient fio = new FioClient("yourtoken");
 ```

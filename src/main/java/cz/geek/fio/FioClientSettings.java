@@ -1,6 +1,8 @@
 package cz.geek.fio;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.concurrent.TimeUnit;
 
@@ -15,6 +17,8 @@ import static org.springframework.util.Assert.isTrue;
  * no effect.
  */
 @Data
+@NoArgsConstructor
+@ConfigurationProperties(prefix = "fio.client")
 public class FioClientSettings {
 
     private String token;
