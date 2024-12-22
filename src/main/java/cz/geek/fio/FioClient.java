@@ -5,9 +5,6 @@ import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
-import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -16,6 +13,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.OutputStream;
 import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
 
 import static cz.geek.fio.FioExtractor.statementExtractor;
@@ -35,7 +34,7 @@ public class FioClient {
     private static final String LAST_DATE = ROOT + "set-last-date/{token}/{date}/";
     private static final String LAST_ID = ROOT + "set-last-id/{token}/{id}/";
 
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormat.forPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     private final String token;
 
@@ -116,7 +115,7 @@ public class FioClient {
         notNull(end);
         return restTemplate.execute(STATEMENT_PERIODS, GET, null,
                 statementExtractor(jaxb2Converter, conversionService),
-                token, DATE_FORMATTER.print(start), DATE_FORMATTER.print(end), ExportFormat.xml);
+                token, DATE_FORMATTER.format(start), DATE_FORMATTER.format(end), ExportFormat.xml);
     }
 
     /**
@@ -132,7 +131,7 @@ public class FioClient {
         notNull(end);
         notNull(format);
         restTemplate.execute(STATEMENT_PERIODS, GET, null, new OutputStreamResponseExtractor(target),
-                token, DATE_FORMATTER.print(start), DATE_FORMATTER.print(end), format);
+                token, DATE_FORMATTER.format(start), DATE_FORMATTER.format(end), format);
     }
 
     /**
@@ -214,7 +213,7 @@ public class FioClient {
     public void setLast(final LocalDate date) {
         notNull(date);
         restTemplate.execute(LAST_DATE, GET, null, null,
-                token, DATE_FORMATTER.print(date));
+                token, DATE_FORMATTER.format(date));
     }
 
 }

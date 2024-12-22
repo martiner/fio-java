@@ -1,10 +1,10 @@
 package cz.geek.fio;
 
-import org.joda.time.LocalDate;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.support.GenericConversionService;
 
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -113,7 +113,7 @@ class FioConversionService {
     }
 
     private static LocalDate toLocalDate(final XMLGregorianCalendar date) {
-        return date != null ? new LocalDate(date.getYear(), date.getMonth(), date.getDay()) : null;
+        return date != null ? LocalDate.of(date.getYear(), date.getMonth(), date.getDay()) : null;
     }
 
 }

@@ -1,11 +1,9 @@
 package cz.geek.fio;
 
 import lombok.Data;
-import org.joda.time.LocalDate;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
 
 @Data
 public class FioTransaction {
