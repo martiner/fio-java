@@ -1,5 +1,7 @@
 package cz.geek.fio;
 
+import lombok.Data;
+
 import java.util.concurrent.TimeUnit;
 
 import static org.springframework.util.Assert.isTrue;
@@ -11,6 +13,7 @@ import static org.springframework.util.Assert.isTrue;
  * Settings are applied only once at the beginning. Changing this bean after it's passed to {@link FioClient} has
  * no effect.
  */
+@Data
 public class FioClientSettings {
 
     private int maxConnections = 20;
