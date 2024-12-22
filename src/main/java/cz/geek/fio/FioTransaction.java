@@ -20,5 +20,8 @@ public class FioTransaction {
     private String provedl;
     private String komentar;
     private long idPokynu;
+    private String variabilniSymbol;
+    private String konstantniSymbol;
+    private String specifickySymbol;
 
 }

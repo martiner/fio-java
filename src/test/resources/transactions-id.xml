@@ -18,6 +18,9 @@
             <column_14 id="14" name="Měna">CZK</column_14>
             <column_8 id="8" name="Typ">Připsaný úrok</column_8>
             <column_17 id="17" name="ID pokynu">2099310186</column_17>
+            <column_4 id="17" name="ks">0111</column_4>
+            <column_5 id="17" name="vs">9998887770</column_5>
+            <column_6 id="17" name="ss">666555444</column_6>
         </Transaction>
         <Transaction>
             <column_22 id="22" name="ID pohybu">1147301404</column_22>
