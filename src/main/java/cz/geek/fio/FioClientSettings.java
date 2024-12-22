@@ -150,42 +150,8 @@ public class FioClientSettings {
         return socketTimeout;
     }
 
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        final FioClientSettings that = (FioClientSettings) o;
-
-        if (maxConnections != that.maxConnections) return false;
-        if (connectionTimeout != that.connectionTimeout) return false;
-        if (connectionRequestTimeout != that.connectionRequestTimeout) return false;
-        return socketTimeout == that.socketTimeout;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = maxConnections;
-        result = 31 * result + connectionTimeout;
-        result = 31 * result + connectionRequestTimeout;
-        result = 31 * result + socketTimeout;
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "FioClient{" +
-                "connectionRequestTimeout=" + connectionRequestTimeout +
-                ", maxConnections=" + maxConnections +
-                ", connectionTimeout=" + connectionTimeout +
-                ", socketTimeout=" + socketTimeout +
-                '}';
-    }
-
     private static int secondsToMillis(int seconds) {
         return (int) TimeUnit.SECONDS.toMillis(seconds);
     }
-
 
 }

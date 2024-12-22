@@ -1,10 +1,13 @@
 package cz.geek.fio;
 
+import lombok.Data;
+
 import java.util.List;
 
 import static org.apache.commons.lang3.Validate.noNullElements;
 import static org.apache.commons.lang3.Validate.notNull;
 
+@Data
 public class FioAccountStatement {
 
     private final FioAccountInfo info;
@@ -15,11 +18,4 @@ public class FioAccountStatement {
         this.transactions = noNullElements(transactions);
     }
 
-    public FioAccountInfo getInfo() {
-        return info;
-    }
-
-    public List<FioTransaction> getTransactions() {
-        return transactions;
-    }
 }
