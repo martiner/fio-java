@@ -1,6 +1,7 @@
 package cz.geek.fio;
 
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.config.RequestConfig;
@@ -26,6 +27,7 @@ import static org.springframework.http.HttpMethod.GET;
 /**
  * Fio Bank Client
  */
+@Slf4j
 public class FioClient {
 
     private static final String ROOT = "/ib_api/rest/";
@@ -70,6 +72,7 @@ public class FioClient {
         this.restTemplate = createRestTemplate(base, settings);
         this.jaxb2Converter = new NamespaceIgnoringJaxb2HttpMessageConverter();
         this.conversionService = new FioConversionService();
+        log.info("Fio client configured {}", base.toUriString());
     }
 
     private RestTemplate createRestTemplate(final UriComponentsBuilder base, final FioClientSettings settings) {
@@ -113,9 +116,12 @@ public class FioClient {
     public FioAccountStatement getStatement(final LocalDate start, final LocalDate end) {
         notNull(start);
         notNull(end);
+        String from = DATE_FORMATTER.format(start);
+        String to = DATE_FORMATTER.format(end);
+        log.info("Getting statement from {} to {}", from, to);
         return restTemplate.execute(STATEMENT_PERIODS, GET, null,
                 statementExtractor(jaxb2Converter, conversionService),
-                token, DATE_FORMATTER.format(start), DATE_FORMATTER.format(end), ExportFormat.xml);
+                token, from, to, ExportFormat.xml);
     }
 
     /**
@@ -130,8 +136,11 @@ public class FioClient {
         notNull(start);
         notNull(end);
         notNull(format);
+        String from = DATE_FORMATTER.format(start);
+        String to = DATE_FORMATTER.format(end);
+        log.info("Exporting statement {} from {} to {}", format, from, to);
         restTemplate.execute(STATEMENT_PERIODS, GET, null, new OutputStreamResponseExtractor(target),
-                token, DATE_FORMATTER.format(start), DATE_FORMATTER.format(end), format);
+                token, from, to, format);
     }
 
     /**
@@ -142,6 +151,7 @@ public class FioClient {
      * @throws FioException
      */
     public FioAccountStatement getStatement(final int year, final int id) {
+        log.info("Getting statement for year {} id {}", year, id);
         return restTemplate.execute(STATEMENT_BY_ID, GET, null,
                 statementExtractor(jaxb2Converter, conversionService),
                 token, year, id, ExportFormat.xml);
@@ -157,6 +167,7 @@ public class FioClient {
      */
     public void exportStatement(final int year, final int id, final ExportFormat format, final OutputStream target) {
         notNull(format);
+        log.info("Exporting statement {} for year {} id {}", format, year, id);
         restTemplate.execute(STATEMENT_BY_ID, GET, null, new OutputStreamResponseExtractor(target),
                 token, year, id, format);
     }
@@ -167,6 +178,7 @@ public class FioClient {
      * @throws FioException
      */
     public FioAccountStatement getStatement() {
+        log.info("Getting statement from the last download");
         return restTemplate.execute(STATEMENT_LAST, GET, null,
                 statementExtractor(jaxb2Converter, conversionService),
                 token, ExportFormat.xml);
@@ -180,6 +192,7 @@ public class FioClient {
      */
     public void exportStatement(final ExportFormat format, final OutputStream target) {
         notNull(format);
+        log.info("Exporting statement {} from the last download", format);
         restTemplate.execute(STATEMENT_LAST, GET, null, new OutputStreamResponseExtractor(target),
                 token, format);
     }
@@ -201,6 +214,7 @@ public class FioClient {
      */
     public void setLast(final String id) {
         notEmpty(id);
+        log.info("Setting last download from {}", id);
         restTemplate.execute(LAST_ID, GET, null, null,
                 token, id);
     }
@@ -212,8 +226,10 @@ public class FioClient {
      */
     public void setLast(final LocalDate date) {
         notNull(date);
+        String last = DATE_FORMATTER.format(date);
+        log.info("Setting last download from {}", date);
         restTemplate.execute(LAST_DATE, GET, null, null,
-                token, DATE_FORMATTER.format(date));
+                token, last);
     }
 
 }
