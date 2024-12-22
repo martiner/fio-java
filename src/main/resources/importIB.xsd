@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 	
-	<xs:include schemaLocation="type.xsd"/>
+	<xs:include schemaLocation="fio_xml_type.xsd"/>
 	
 	<xs:element name="Import">
 		<xs:complexType>
@@ -48,7 +48,7 @@
 			<xs:element name="ks" type="ks_type" minOccurs="0" maxOccurs="1" />
 			<xs:element name="vs" type="vs_type" minOccurs="0" maxOccurs="1" />
 			<xs:element name="ss" type="ss_type" minOccurs="0" maxOccurs="1" />
-			<xs:element name="bic" type="bic_type" minOccurs="1" maxOccurs="1" />
+			<xs:element name="bic" type="string_50_type" minOccurs="0" maxOccurs="1" />
 			<xs:element name="date" type="xs:date" minOccurs="1" maxOccurs="1" />
 			<xs:element name="comment" type="user_identification_type" minOccurs="0" maxOccurs="1" />
 			<xs:element name="benefName" type="string_50_type" minOccurs="1" maxOccurs="1" />

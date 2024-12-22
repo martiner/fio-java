@@ -29,7 +29,7 @@
 			<xs:pattern value="(\d{1,6}-)?\d{1,10}" />
 		</xs:restriction>
 	</xs:simpleType>
-	
+
 	<xs:simpleType name="account_fio_type">
 		<xs:restriction base="xs:nonNegativeInteger">
 			<xs:pattern value="(\d{1,10})" />
@@ -101,13 +101,13 @@
 			<xs:maxLength value="140" />
 		</xs:restriction>
 	</xs:simpleType>
-	
+
 	<xs:simpleType name="bic_type">
 		<xs:restriction base="xs:token">
 			<xs:pattern value="[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?" />
 		</xs:restriction>
 	</xs:simpleType>
-	
+
 
 	<xs:simpleType name="std_string_type">
 		<xs:restriction base="xs:string">
@@ -120,12 +120,12 @@
 			<xs:maxLength value="50" />
 		</xs:restriction>
 	</xs:simpleType>
-	
+
 	<xs:simpleType name="remittance_info_type">
 		<xs:restriction base="xs:token">
 			<xs:maxLength value="35" />
 		</xs:restriction>
-	</xs:simpleType>	
+	</xs:simpleType>
 
 	<xs:simpleType name="details_charges_type">
 		<xs:restriction base="xs:nonNegativeInteger">
@@ -138,7 +138,6 @@
 	<xs:simpleType name="payment_type_domestic_type">
 		<xs:restriction base="xs:nonNegativeInteger">
 			<xs:enumeration value="431001" /><!-- Standardní -->
-			<xs:enumeration value="431004" /><!-- Zrychlená -->
 			<xs:enumeration value="431005" /><!-- Prioritní -->
 			<xs:enumeration value="431022" /><!-- Prikaz k inkasu -->
 		</xs:restriction>
@@ -152,7 +151,7 @@
 	</xs:simpleType>
 
 	<xs:simpleType name="payment_reason_type">
-  		<xs:restriction base="xs:string">
+		<xs:restriction base="xs:integer">
 			<xs:enumeration value="110"/><!-- 110 - Vývoz zboží -->
 			<xs:enumeration value="112"/><!-- 112 - Finanční pronájem (leasing) - vývoz -->
 			<xs:enumeration value="120"/><!-- 120 - Dovoz zboží -->
@@ -268,7 +267,7 @@
 			<xs:enumeration value="755"/><!-- 755 -   Vklady a výběry z vkladů střednědobých a dlouhodobých -->
 			<xs:enumeration value="760"/><!-- 760 - Konverze, arbitráže a další operace -->
 			<xs:enumeration value="762"/><!-- 762 - Řízení likvidity peněžních prostředků (cash-pooling, zero balancing) -->
-      		<xs:enumeration value="770"/><!-- 770 - Členské podíly v mezinárodních organizacích -->
+			<xs:enumeration value="770"/><!-- 770 - Členské podíly v mezinárodních organizacích -->
 			<xs:enumeration value="790"/><!-- 790 - Zajištění závazků cizozemce -->
 			<xs:enumeration value="818"/><!-- 818 - Tuzemské portfoliové investice -->
 			<xs:enumeration value="820"/><!-- 820 - Tuzemské dluhové cenné papíry krátkodobé -->
@@ -282,11 +281,11 @@
 			<xs:enumeration value="890"/><!-- 890 - Zajištění závazku tuzemce -->
 			<xs:enumeration value="950"/><!-- 950 - Převody mezi tuzemci -->
 			<xs:enumeration value="952"/><!-- 952 - Převody mezi cizozemci -->
-  		</xs:restriction>
+		</xs:restriction>
 	</xs:simpleType>
 
 	<xs:simpleType name="country_type">
-  		<xs:restriction base="xs:string">
+		<xs:restriction base="xs:string">
 			<xs:enumeration value="AX"/><!-- Alandské ostrovy -->
 			<xs:enumeration value="AL"/><!-- Albánie -->
 			<xs:enumeration value="DZ"/><!-- Alžírsko -->
@@ -539,7 +538,7 @@
 			<xs:enumeration value="ZM"/><!-- Zambie -->
 			<xs:enumeration value="EH"/><!-- Západní Sahara -->
 			<xs:enumeration value="ZW"/><!-- Zimbabwe -->
-  		</xs:restriction>
+		</xs:restriction>
 	</xs:simpleType>
 
 </xs:schema>

@@ -28,7 +28,7 @@ import static org.springframework.http.HttpMethod.GET;
  */
 public class FioClient {
 
-    private static final String ROOT = "/ib_api/rest/";
+    private static final String ROOT = "/v1/rest/";
     private static final String STATEMENT_BY_ID = ROOT + "by-id/{token}/{year}/{id}/transactions.{format}";
     private static final String STATEMENT_PERIODS = ROOT + "periods/{token}/{start}/{end}/transactions.{format}";
     private static final String STATEMENT_LAST = ROOT + "last/{token}/transactions.{format}";
@@ -56,7 +56,7 @@ public class FioClient {
      * @param settings HTTP settings
      */
     public FioClient(@NonNull FioClientSettings settings) {
-        this("https", "www.fio.cz", null, settings);
+        this("https", "fioapi.fio.cz", null, settings);
     }
 
     FioClient(final String protocol, final String host, final Integer port, final FioClientSettings settings) {

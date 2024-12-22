@@ -276,6 +276,18 @@
 												</xs:simpleContent>
 											</xs:complexType>										
 										</xs:element>
+
+										<!-- REFERENCE PLATCE -->
+										<xs:element name="column_27" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="name" type="xs:token" use="required"></xs:attribute>
+														<xs:attribute name="id" type="xs:nonNegativeInteger" use="required"></xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
 										
 									</xs:sequence>
 								</xs:complexType>
@@ -287,4 +299,65 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="MerchantStatement">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Info" minOccurs="1" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="accountId" type="xs:string" minOccurs="1" maxOccurs="1"/>
+							<xs:element name="bankId" type="xs:string" minOccurs="1" maxOccurs="1"/>
+							<xs:element name="currency" type="xs:string" minOccurs="1" maxOccurs="1"/>
+
+							<xs:element name="iban" type="xs:string" minOccurs="1" maxOccurs="1"/>
+							<xs:element name="bic" type="xs:string" minOccurs="1" maxOccurs="1"/>
+
+							<xs:element name="dateStart" type="xs:date" minOccurs="0" maxOccurs="1"/>
+							<xs:element name="dateEnd" type="xs:date" minOccurs="0" maxOccurs="1"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="TransactionList" minOccurs="0" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Transaction" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="operationId" type="xs:long" minOccurs="1" maxOccurs="1"/>
+										<xs:element name="orderId" type="xs:long" minOccurs="1" maxOccurs="1"/>
+										<xs:element name="date" type="xs:date" minOccurs="1" maxOccurs="1"/>
+										<xs:element name="amount" type="xs:decimal" minOccurs="1" maxOccurs="1"/>
+										<xs:element name="note" type="xs:string" minOccurs="0" maxOccurs="1"/>
+										<xs:element name="branchName" type="xs:string" minOccurs="0" maxOccurs="1"/>
+										<xs:element name="transactionId" type="xs:long" minOccurs="0" maxOccurs="1"/>
+										<xs:element name="deviceId" type="xs:string" minOccurs="0" maxOccurs="1"/>
+										<xs:element name="transactionDateTime" type="xs:dateTime" minOccurs="0"
+													maxOccurs="1"/>
+										<xs:element name="autorizationNumber" type="xs:string" minOccurs="0"
+													maxOccurs="1"/>
+										<xs:element name="cardNumber" type="xs:string" minOccurs="0" maxOccurs="1"/>
+										<xs:element name="transactionAmount" type="xs:decimal" minOccurs="0"
+													maxOccurs="1"/>
+										<xs:element name="transactionCurrency" type="xs:string" minOccurs="0"
+													maxOccurs="1"/>
+										<xs:element name="type" type="xs:string" minOccurs="0" maxOccurs="1"/>
+										<xs:element name="cardIssuer" type="xs:string" minOccurs="0" maxOccurs="1"/>
+										<xs:element name="totalFees" type="xs:decimal" minOccurs="0" maxOccurs="1"/>
+										<xs:element name="fioFee" type="xs:decimal" minOccurs="0" maxOccurs="1"/>
+										<xs:element name="interchangeFee" type="xs:decimal" minOccurs="0"
+													maxOccurs="1"/>
+										<xs:element name="cardAssociationFee" type="xs:decimal" minOccurs="0"
+													maxOccurs="1"/>
+										<xs:element name="settlement" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+										<xs:element name="settlementDate" type="xs:date" minOccurs="0" maxOccurs="1"/>
+										<xs:element name="vs" type="xs:string" minOccurs="0" maxOccurs="1"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

@@ -27,7 +27,7 @@ public class FioClientIT {
     public void shouldExportTransactionsById() throws Exception {
         onRequest()
                 .havingMethodEqualTo("GET")
-                .havingPathEqualTo("/ib_api/rest/by-id/token/2016/1/transactions.xml")
+                .havingPathEqualTo("/v1/rest/by-id/token/2016/1/transactions.xml")
                 .respond()
                 .withBody(ResourceUtils.readFromResource("/transactions-id.xml"))
                 .withContentType("text/xml")
@@ -40,7 +40,7 @@ public class FioClientIT {
     public void shouldGetTransactionsById() throws Exception {
         onRequest()
                 .havingMethodEqualTo("GET")
-                .havingPathEqualTo("/ib_api/rest/by-id/token/2016/1/transactions.xml")
+                .havingPathEqualTo("/v1/rest/by-id/token/2016/1/transactions.xml")
                 .respond()
                 .withBody(ResourceUtils.readFromResource("/transactions-id.xml"))
                 .withContentType("text/xml")
@@ -53,7 +53,7 @@ public class FioClientIT {
     public void shouldExportTransactionsByDate() throws Exception {
         onRequest()
                 .havingMethodEqualTo("GET")
-                .havingPathEqualTo("/ib_api/rest/periods/token/2016-01-01/2016-01-02/transactions.xml")
+                .havingPathEqualTo("/v1/rest/periods/token/2016-01-01/2016-01-02/transactions.xml")
                 .respond()
                 .withBody(ResourceUtils.readFromResource("/transactions-from-to.xml"))
                 .withContentType("text/xml")
@@ -66,7 +66,7 @@ public class FioClientIT {
     public void shouldGetTransactionsByDate() throws Exception {
         onRequest()
                 .havingMethodEqualTo("GET")
-                .havingPathEqualTo("/ib_api/rest/periods/token/2016-01-01/2016-01-02/transactions.xml")
+                .havingPathEqualTo("/v1/rest/periods/token/2016-01-01/2016-01-02/transactions.xml")
                 .respond()
                 .withBody(ResourceUtils.readFromResource("/transactions-from-to.xml"))
                 .withContentType("text/xml")
@@ -79,7 +79,7 @@ public class FioClientIT {
     public void shouldExportLastTransactions() throws Exception {
         onRequest()
                 .havingMethodEqualTo("GET")
-                .havingPathEqualTo("/ib_api/rest/last/token/transactions.xml")
+                .havingPathEqualTo("/v1/rest/last/token/transactions.xml")
                 .respond()
                 .withBody(ResourceUtils.readFromResource("/transactions-last.xml"))
                 .withContentType("text/xml")
@@ -92,7 +92,7 @@ public class FioClientIT {
     public void shouldGetLastTransactions() throws Exception {
         onRequest()
                 .havingMethodEqualTo("GET")
-                .havingPathEqualTo("/ib_api/rest/last/token/transactions.xml")
+                .havingPathEqualTo("/v1/rest/last/token/transactions.xml")
                 .respond()
                 .withBody(ResourceUtils.readFromResource("/transactions-last.xml"))
                 .withContentType("text/xml")
@@ -105,7 +105,7 @@ public class FioClientIT {
     public void shouldSetLastId() throws Exception {
         onRequest()
                 .havingMethodEqualTo("GET")
-                .havingPathEqualTo("/ib_api/rest/set-last-id/token/1/")
+                .havingPathEqualTo("/v1/rest/set-last-id/token/1/")
                 .respond()
                 .withStatus(200);
 
@@ -116,7 +116,7 @@ public class FioClientIT {
     public void shouldSetLastDate() throws Exception {
         onRequest()
                 .havingMethodEqualTo("GET")
-                .havingPathEqualTo("/ib_api/rest/set-last-date/token/2016-01-02/")
+                .havingPathEqualTo("/v1/rest/set-last-date/token/2016-01-02/")
                 .respond()
                 .withStatus(200);
 

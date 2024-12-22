@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 
-	<xs:include schemaLocation="type.xsd" />
+	<xs:simpleType name="status">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ok" />
+			<xs:enumeration value="error" />
+			<xs:enumeration value="warning" />
+			<xs:enumeration value="fatal" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="amount_type">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="2" />
+		</xs:restriction>
+	</xs:simpleType>
 
 	<xs:element name="responseImport">
 		<xs:complexType>
@@ -10,9 +23,9 @@
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element name="errorCode" type="xs:unsignedShort" minOccurs="1" maxOccurs="1" />
-							<xs:element name="idInstruction" type="xs:nonNegativeInteger" minOccurs="0" maxOccurs="1" />
+							<xs:element name="idInstruction" type="xs:nonNegativeInteger" minOccurs="0" maxOccurs="unbounded" />
 							<xs:element name="status" type="status" minOccurs="1" maxOccurs="1" />
-							<xs:element name="message" type="xs:string" minOccurs="0" maxOccurs="1" />
+							<xs:element name="message" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
 
 							<xs:element name="sums" minOccurs="0" maxOccurs="1">
 								<xs:complexType>
@@ -65,9 +78,4 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-
-
-
-
-
 </xs:schema>
