@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>fio-java</artifactId>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>0.2.0</version>
     <name>${project.artifactId}</name>
     <description>Fio Bank Java Client</description>
 
@@ -23,7 +23,8 @@
         <url>git@github.com:martiner/fio-java.git</url>
         <connection>scm:git:git@github.com:martiner/fio-java.git</connection>
         <developerConnection>scm:git:${basedir}</developerConnection>
-    </scm>
+      <tag>fio-java-0.2.0</tag>
+  </scm>
     <developers>
         <developer>
             <name>Martin Caslavsky</name>
