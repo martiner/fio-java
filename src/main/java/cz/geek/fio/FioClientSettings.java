@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import static org.apache.commons.lang3.Validate.notEmpty;
@@ -24,7 +25,6 @@ public class FioClientSettings {
     private String token;
     private int maxConnections = 20;
     private int connectionTimeout = secondsToMillis(10);
-    private int connectionRequestTimeout = secondsToMillis(10);
     private int socketTimeout = secondsToMillis(60);
 
     public FioClientSettings(String token) {
@@ -106,43 +106,6 @@ public class FioClientSettings {
     }
 
     /**
-     * Set timeout in milliseconds used when requesting a connection from the connection manager.
-     * <p>
-     * The default value is 10 seconds (10000 ms).
-     * <p>
-     * Set to 0 for infinite.
-     *
-     * @param connectionRequestTimeout connection request timeout milliseconds
-     */
-    public void setConnectionRequestTimeout(final int connectionRequestTimeout) {
-        isTrue(connectionRequestTimeout >= 0, "connectionRequestTimeout must not be negative");
-        this.connectionRequestTimeout = connectionRequestTimeout;
-    }
-
-    /**
-     * Set timeout in seconds used when requesting a connection from the connection manager.
-     * <p>
-     * The default value is 10 seconds.
-     * <p>
-     * Set to 0 for infinite.
-     * <p>
-     *
-     * @param connectionRequestTimeout connection request timeout seconds
-     */
-    public void setConnectionRequestTimeoutSeconds(final int connectionRequestTimeout) {
-        setConnectionRequestTimeout(secondsToMillis(connectionRequestTimeout));
-    }
-
-    /**
-     * Returns the timeout in milliseconds used when requesting a connection from the connection manager.
-     *
-     * @return milliseconds used as timeout when requesting a connection from the connection manager
-     */
-    public int getConnectionRequestTimeout() {
-        return connectionRequestTimeout;
-    }
-
-    /**
      * Set socket timeout (maximum period inactivity between two consecutive data packets) milliseconds.
      * <p>
      * The default value is 60 seconds (60000 ms).
@@ -182,4 +145,7 @@ public class FioClientSettings {
         return (int) TimeUnit.SECONDS.toMillis(seconds);
     }
 
+    static Duration millisToDuration(int millis) {
+        return Duration.ofMillis(millis);
+    }
 }

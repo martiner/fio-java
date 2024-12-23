@@ -35,7 +35,6 @@
         <targetJdk>17</targetJdk>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <httpclient.version>5.4.1</httpclient.version>
         <spring.version>6.2.1</spring.version>
         <spring-boot.version>3.4.0</spring-boot.version>
         <jadler.version>1.3.1</jadler.version>
@@ -113,9 +112,6 @@
                         <configuration>
                             <failOnWarning>true</failOnWarning>
                             <ignoreNonCompile>true</ignoreNonCompile>
-                            <ignoredUnusedDeclaredDependencies>
-                                <ignoredUsedUndeclaredDependency>org.apache.httpcomponents:httpcore</ignoredUsedUndeclaredDependency>
-                            </ignoredUnusedDeclaredDependencies>
                         </configuration>
                     </execution>
                 </executions>
@@ -151,13 +147,13 @@
             <version>${slf4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.httpcomponents.client5</groupId>
-            <artifactId>httpclient5</artifactId>
-            <version>${httpclient.version}</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
+            <artifactId>spring-beans</artifactId>
             <version>${spring.version}</version>
         </dependency>
         <dependency>

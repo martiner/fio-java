@@ -2,23 +2,18 @@ package cz.geek.fio;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.hc.client5.http.classic.HttpClient;
-import org.apache.hc.client5.http.config.ConnectionConfig;
-import org.apache.hc.client5.http.config.RequestConfig;
-import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
-import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.OutputStream;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.concurrent.TimeUnit;
+import java.util.Optional;
 
+import static cz.geek.fio.FioClientSettings.millisToDuration;
 import static cz.geek.fio.FioExtractor.statementExtractor;
 import static org.apache.commons.lang3.Validate.notEmpty;
 import static org.apache.commons.lang3.Validate.notNull;
@@ -58,10 +53,19 @@ public class FioClient {
      * @param settings HTTP settings
      */
     public FioClient(@NonNull FioClientSettings settings) {
-        this("https", "www.fio.cz", null, settings);
+        this("https", "www.fio.cz", null, settings, null);
     }
 
-    FioClient(final String protocol, final String host, final Integer port, final FioClientSettings settings) {
+    /**
+     * Constructs a new Fio Client
+     * @param settings HTTP settings
+     * @param builder optional builder
+     */
+    public FioClient(@NonNull FioClientSettings settings, RestTemplateBuilder builder) {
+        this("https", "www.fio.cz", null, settings, builder);
+    }
+
+    FioClient(String protocol, String host, Integer port, FioClientSettings settings, RestTemplateBuilder builder) {
         final UriComponentsBuilder base = UriComponentsBuilder.newInstance()
                 .scheme(notEmpty(protocol))
                 .host(notEmpty(host));
@@ -69,41 +73,19 @@ public class FioClient {
             base.port(port);
         }
         this.token = notEmpty(settings.getToken());
-        this.restTemplate = createRestTemplate(base, settings);
+        this.restTemplate = createRestTemplate(base, settings, builder);
         this.jaxb2Converter = new NamespaceIgnoringJaxb2HttpMessageConverter();
         this.conversionService = new FioConversionService();
-        log.info("Fio client configured {}", base.toUriString());
+        log.info("Fio client configured {} {}", base.toUriString(), restTemplate.getRequestFactory().getClass().getSimpleName());
     }
 
-    private RestTemplate createRestTemplate(final UriComponentsBuilder base, final FioClientSettings settings) {
-        final HttpClient httpClient = createHttpClientBuilder(settings).build();
-        final RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory(httpClient));
-        restTemplate.setErrorHandler(new FioErrorHandler());
-        restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(base));
-        return restTemplate;
-    }
-
-    private HttpClientBuilder createHttpClientBuilder(final FioClientSettings settings) {
-        notNull(settings);
-
-        final PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
-        connectionManager.setDefaultMaxPerRoute(settings.getMaxConnections());
-        connectionManager.setMaxTotal(settings.getMaxConnections());
-
-        final ConnectionConfig connectionConfig = ConnectionConfig.copy(ConnectionConfig.DEFAULT)
-                .setConnectTimeout(settings.getConnectionTimeout(), TimeUnit.MILLISECONDS)
-                .setSocketTimeout(settings.getSocketTimeout(), TimeUnit.MILLISECONDS)
+    private RestTemplate createRestTemplate(UriComponentsBuilder base, FioClientSettings settings, RestTemplateBuilder builder) {
+        return Optional.ofNullable(builder).orElseGet(RestTemplateBuilder::new)
+                .errorHandler(new FioErrorHandler())
+                .connectTimeout(millisToDuration(settings.getConnectionTimeout()))
+                .readTimeout(millisToDuration(settings.getSocketTimeout()))
+                .rootUri(base.toUriString())
                 .build();
-        connectionManager.setDefaultConnectionConfig(connectionConfig);
-
-        RequestConfig requestConfig = RequestConfig.custom()
-                .setConnectionRequestTimeout(settings.getConnectionTimeout(), TimeUnit.MILLISECONDS)
-                .build();
-
-        return HttpClientBuilder.create()
-                // todo .setUserAgent(getUserAgent())
-                .setConnectionManager(connectionManager)
-                .setDefaultRequestConfig(requestConfig);
     }
 
     /**
