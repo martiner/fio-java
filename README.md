@@ -1,5 +1,9 @@
 # Fio Bank Java Client
 
+[![Build Status](https://github.com/martiner/fio-java/actions/workflows/build-branch.yml/badge.svg?branch=master)](https://github.com/martiner/fio-java/actions/workflows/build-branch.yml)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/cz.geek/fio-java/badge.svg)](https://maven-badges.herokuapp.com/maven-central/cz.geek/fio-java)
+[![Javadocs](http://javadoc.io/badge/cz.geek/fio-java.svg)](http://javadoc.io/doc/cz.geek/fio-java)
+
 A Java SDK for accessing the [REST API](http://www.fio.cz/bank-services/internetbanking-api) of [Fio Bank](https://www.fio.cz/).
 
 ## Usage
