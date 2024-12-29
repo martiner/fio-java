@@ -3,7 +3,6 @@ package cz.geek.fio;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -37,8 +36,8 @@ public class FioClient {
     private final String token;
 
     private final RestTemplate restTemplate;
-    private final HttpMessageConverter<Object> jaxb2Converter;
-    private final FioConversionService conversionService;
+
+    private final FioExtractor<FioAccountStatement> statementExtractor;
 
     /**
      * Constructs a new Fio Client
@@ -74,8 +73,7 @@ public class FioClient {
         }
         this.token = notEmpty(settings.getToken());
         this.restTemplate = createRestTemplate(base, settings, builder);
-        this.jaxb2Converter = new NamespaceIgnoringJaxb2HttpMessageConverter();
-        this.conversionService = new FioConversionService();
+        this.statementExtractor = statementExtractor(new NamespaceIgnoringJaxb2HttpMessageConverter(), new FioConversionService());
         log.info("Fio client configured {} {}", base.toUriString(), restTemplate.getRequestFactory().getClass().getSimpleName());
     }
 
@@ -101,8 +99,7 @@ public class FioClient {
         String from = DATE_FORMATTER.format(start);
         String to = DATE_FORMATTER.format(end);
         log.info("Getting statement from {} to {}", from, to);
-        return restTemplate.execute(STATEMENT_PERIODS, GET, null,
-                statementExtractor(jaxb2Converter, conversionService),
+        return restTemplate.execute(STATEMENT_PERIODS, GET, null, statementExtractor,
                 token, from, to, ExportFormat.xml);
     }
 
@@ -134,8 +131,7 @@ public class FioClient {
      */
     public FioAccountStatement getStatement(final int year, final int id) {
         log.info("Getting statement for year {} id {}", year, id);
-        return restTemplate.execute(STATEMENT_BY_ID, GET, null,
-                statementExtractor(jaxb2Converter, conversionService),
+        return restTemplate.execute(STATEMENT_BY_ID, GET, null, statementExtractor,
                 token, year, id, ExportFormat.xml);
     }
 
@@ -161,8 +157,7 @@ public class FioClient {
      */
     public FioAccountStatement getStatement() {
         log.info("Getting statement from the last download");
-        return restTemplate.execute(STATEMENT_LAST, GET, null,
-                statementExtractor(jaxb2Converter, conversionService),
+        return restTemplate.execute(STATEMENT_LAST, GET, null, statementExtractor,
                 token, ExportFormat.xml);
     }
 
