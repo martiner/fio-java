@@ -8,7 +8,7 @@ import static org.apache.commons.lang3.Validate.notNull;
 public class ResourceUtils {
 
     public static InputStream readFromResource(String resourcePath) {
-        final Class<?> clazz = FioClientIT.class;
+        final Class<?> clazz = ResourceUtils.class;
         return readFromResource(resourcePath, clazz);
     }
 

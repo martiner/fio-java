@@ -19,6 +19,8 @@ jobs:
           cache: 'maven'
 
       - name: Build with Maven
+        env:
+          TOKEN: ${{ secrets.TOKEN }}
         run: ./mvnw -B verify javadoc:javadoc
 
       - name: Publish Tests Report
