@@ -14,7 +14,7 @@ The *Fio Bank Java Client* is available in Maven Central Repository, to use it f
 <dependency>
     <groupId>cz.geek</groupId>
     <artifactId>fio-java</artifactId>
-    <version>0.4.0</version>
+    <version>0.4.1</version>
 </dependency>
 ```
 
@@ -89,3 +89,22 @@ fio.setLast("1147608198");
 
 ## License
 The *Fio Bank Java Client* is free and open-source software under [BSD License](LICENSE.txt).
+
+## Development
+
+### Run unit tests
+```shell
+./mvnw test
+```
+
+### Run integration tests (against the live API with a real token)
+```shell
+export TOKEN=$(cat)
+./mvnw verify
+```
+
+### Releasing
+```shell
+export GPG_TTY=$(tty)
+./mvnw release:prepare release:perform
+```
