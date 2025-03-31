@@ -52,7 +52,7 @@ public class FioClient {
      * @param settings HTTP settings
      */
     public FioClient(@NonNull FioClientSettings settings) {
-        this("https", "fioapi.fio.cz", null, settings, null);
+        this(settings, null);
     }
 
     /**
@@ -61,7 +61,7 @@ public class FioClient {
      * @param builder optional builder
      */
     public FioClient(@NonNull FioClientSettings settings, RestTemplateBuilder builder) {
-        this("https", "www.fio.cz", null, settings, builder);
+        this("https", "fioapi.fio.cz", null, settings, builder);
     }
 
     FioClient(String protocol, String host, Integer port, FioClientSettings settings, RestTemplateBuilder builder) {
