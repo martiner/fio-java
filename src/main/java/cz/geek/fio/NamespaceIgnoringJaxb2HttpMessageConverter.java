@@ -12,6 +12,7 @@ import javax.xml.transform.Source;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamSource;
 import java.io.StringReader;
+import java.nio.charset.Charset;
 
 /**
  * Players in FIO publish schema with namespace, but XML from API doesn't contain them :(
@@ -19,9 +20,12 @@ import java.io.StringReader;
 class NamespaceIgnoringJaxb2HttpMessageConverter extends Jaxb2RootElementHttpMessageConverter {
 
     @Override
-    protected Source processSource(Source source) {
+    protected Source processSource(Source source, Charset charset) {
         if (source instanceof StreamSource streamSource) {
             InputSource inputSource = new InputSource(streamSource.getInputStream());
+            if (charset != null) {
+                inputSource.setEncoding(charset.name());
+            }
             try {
                 XMLReader xmlReader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
                 String featureName = "http://xml.org/sax/features/external-general-entities";
