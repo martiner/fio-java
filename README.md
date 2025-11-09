@@ -105,6 +105,9 @@ export TOKEN=$(cat)
 
 ### Releasing
 ```shell
+export TOKEN=$(cat)
 export GPG_TTY=$(tty)
-./mvnw release:prepare release:perform
+./mvnw release:prepare
+sleep 30 # prevent too many requests on FIO API
+./mvnw release:perform
 ```
