@@ -18,6 +18,7 @@ import java.io.StringReader;
  */
 class NamespaceIgnoringJaxb2HttpMessageConverter extends Jaxb2RootElementHttpMessageConverter {
 
+    @Override
     protected Source processSource(Source source) {
         if (source instanceof StreamSource streamSource) {
             InputSource inputSource = new InputSource(streamSource.getInputStream());
@@ -40,9 +41,8 @@ class NamespaceIgnoringJaxb2HttpMessageConverter extends Jaxb2RootElementHttpMes
             } catch (ParserConfigurationException e) {
                 throw new RuntimeException("Unable to create parser", e);
             }
-        } else {
-            return source;
         }
+        throw new IllegalArgumentException("Source must be of type StreamSource not " + source.getClass().getName());
     }
 
     private static final EntityResolver NO_OP_ENTITY_RESOLVER = new EntityResolver() {
