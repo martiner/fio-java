@@ -1,7 +1,7 @@
 # Fio Bank Java Client
 
 [![Build Status](https://github.com/martiner/fio-java/actions/workflows/build-branch.yml/badge.svg?branch=master)](https://github.com/martiner/fio-java/actions/workflows/build-branch.yml)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/cz.geek/fio-java/badge.svg)](https://maven-badges.herokuapp.com/maven-central/cz.geek/fio-java)
+[![Maven Central](https://maven-badges.sml.io/maven-central/cz.geek/fio-java/badge.svg)](https://maven-badges.sml.io/maven-central/cz.geek/fio-java)
 [![Javadocs](http://javadoc.io/badge/cz.geek/fio-java.svg)](http://javadoc.io/doc/cz.geek/fio-java)
 
 A Java SDK for accessing the [REST API](http://www.fio.cz/bank-services/internetbanking-api) of [Fio Bank](https://www.fio.cz/).
@@ -14,7 +14,7 @@ The *Fio Bank Java Client* is available in Maven Central Repository, to use it f
 <dependency>
     <groupId>cz.geek</groupId>
     <artifactId>fio-java</artifactId>
-    <version>0.4.1</version>
+    <version>0.5.0</version>
 </dependency>
 ```
 
@@ -31,12 +31,12 @@ FioClient fio = new FioClient("yourtoken");
 
 Get account statement with **the given number within the given year**:
 ```java
-FioAccountStatement statement = fio.getStatement(2016, 1);
+FioAccountStatement statement = fio.getStatement(2026, 1);
 ```
 
 Get account statement within **the given period**:
 ```java
-FioAccountStatement statement = fio.getStatement(LocalDate.of(2016, 1, 1), LocalDate.of(2016, 1, 31));
+FioAccountStatement statement = fio.getStatement(LocalDate.of(2026, 1, 1), LocalDate.of(2026, 1, 31));
 ```
 
 Get account statement from the **last download**:
@@ -48,12 +48,12 @@ FioAccountStatement statement = fio.getStatement();
 
 Export account statement with **the given number within the given year**:
 ```java
-fio.getStatement(2016, 1, ExportFormat.pdf, outputStream);
+fio.getStatement(2026, 1, ExportFormat.pdf, outputStream);
 ```
 
 Export account statement within **the given period**:
 ```java
-fio.getStatement(LocalDate.of(2016, 1, 1), LocalDate.of(2016, 1, 31), ExportFormat.pdf, outputStream);
+fio.getStatement(LocalDate.of(2026, 1, 1), LocalDate.of(2026, 1, 31), ExportFormat.pdf, outputStream);
 ```
 
 Export account statement from the **last download**:
@@ -65,7 +65,7 @@ fio.getStatement(ExportFormat.pdf, outputStream);
 
 Set last downloaded statement **by date**:
 ```java
-fio.setLast(LocalDate.of(2016, 1, 1));
+fio.setLast(LocalDate.of(2026, 1, 1));
 ```
 
 Set last downloaded statement **by transaction id**:

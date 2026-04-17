@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>fio-java</artifactId>
-    <version>0.4.3-SNAPSHOT</version>
+    <version>0.5.0-SNAPSHOT</version>
     <name>${project.artifactId}</name>
     <description>Fio Bank Java Client</description>
 
@@ -35,8 +35,8 @@
         <targetJdk>17</targetJdk>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring.version>6.2.12</spring.version>
-        <spring-boot.version>3.5.7</spring-boot.version>
+        <spring.version>7.0.6</spring.version>
+        <spring-boot.version>4.0.5</spring-boot.version>
         <jadler.version>1.3.1</jadler.version>
         <json-unit.version>1.5.3</json-unit.version>
         <cxf.version>4.1.0</cxf.version>
@@ -162,9 +162,10 @@
             <version>${spring.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jcl</artifactId>
-            <version>${spring.version}</version>
+            <artifactId>commons-logging</artifactId>
+            <groupId>commons-logging</groupId>
+            <version>1.3.5</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -189,6 +190,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-restclient</artifactId>
             <version>${spring-boot.version}</version>
         </dependency>
 

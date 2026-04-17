@@ -2,7 +2,7 @@ package cz.geek.fio;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
