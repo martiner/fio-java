@@ -6,16 +6,21 @@ import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+import java.util.Properties;
 
 import static cz.geek.fio.FioClientSettings.millisToDuration;
 import static cz.geek.fio.FioExtractor.statementExtractor;
+import static java.util.Objects.requireNonNullElse;
 import static org.apache.commons.lang3.Validate.notEmpty;
 import static org.apache.commons.lang3.Validate.notNull;
+import static org.springframework.http.HttpHeaders.USER_AGENT;
 import static org.springframework.http.HttpMethod.GET;
 
 /**
@@ -32,6 +37,10 @@ public class FioClient {
     private static final String LAST_ID = ROOT + "set-last-id/{token}/{id}/";
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    private static final String USER_AGENT_VALUE = "FioJava/" +
+                    requireNonNullElse(loadVersion(), "unknown") +
+                    " (+https://github.com/martiner/fio-java)";
 
     private final String token;
 
@@ -83,6 +92,10 @@ public class FioClient {
                 .connectTimeout(millisToDuration(settings.getConnectionTimeout()))
                 .readTimeout(millisToDuration(settings.getSocketTimeout()))
                 .rootUri(base.toUriString())
+                .additionalInterceptors((request, body, execution) -> {
+                    request.getHeaders().set(USER_AGENT, USER_AGENT_VALUE);
+                    return execution.execute(request, body);
+                })
                 .build();
     }
 
@@ -207,6 +220,19 @@ public class FioClient {
         log.info("Setting last download from {}", date);
         restTemplate.execute(LAST_DATE, GET, null, null,
                 token, last);
+    }
+
+    private static String loadVersion() {
+        try (InputStream is = FioClient.class.getResourceAsStream(
+                "/META-INF/maven/cz.geek/fio-java/pom.properties")) {
+            if (is != null) {
+                Properties props = new Properties();
+                props.load(is);
+                return props.getProperty("version");
+            }
+        } catch (IOException ignored) {
+        }
+        return null;
     }
 
 }

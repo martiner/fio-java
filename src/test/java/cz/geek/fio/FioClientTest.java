@@ -12,6 +12,9 @@ import static net.jadler.Jadler.closeJadler;
 import static net.jadler.Jadler.initJadler;
 import static net.jadler.Jadler.onRequest;
 import static net.jadler.Jadler.port;
+import static net.jadler.Jadler.verifyThatRequest;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.startsWith;
 
 public class FioClientTest {
 
@@ -121,6 +124,19 @@ public class FioClientTest {
                 .withStatus(200);
 
         fio.setLast(LocalDate.of(2016, 1, 2));
+    }
+
+    @Test
+    public void shouldSendUserAgentHeader() throws Exception {
+        onRequest()
+                .respond()
+                .withStatus(200);
+
+        fio.setLast(LocalDate.of(2016, 1, 2));
+
+        verifyThatRequest()
+                .havingHeader("User-Agent", contains(startsWith("FioJava/")))
+                .receivedOnce();
     }
 
     @AfterMethod
