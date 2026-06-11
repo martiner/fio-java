@@ -139,6 +139,18 @@ public class FioClientTest {
                 .receivedOnce();
     }
 
+    @Test(expectedExceptions = FioTooMuchRequestsException.class)
+    public void shouldThrowFioTooMuchRequestsExceptionOn409() {
+        onRequest().havingMethodEqualTo("GET").respond().withStatus(409);
+        fio.setLast(LocalDate.of(2016, 1, 1));
+    }
+
+    @Test(expectedExceptions = FioRestException.class)
+    public void shouldThrowFioRestExceptionOn500() {
+        onRequest().havingMethodEqualTo("GET").respond().withStatus(500);
+        fio.setLast(LocalDate.of(2016, 1, 1));
+    }
+
     @AfterMethod
     public void tearDown() {
         closeJadler();
