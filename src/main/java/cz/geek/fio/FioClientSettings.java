@@ -2,6 +2,7 @@ package cz.geek.fio;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.time.Duration;
@@ -22,6 +23,7 @@ import static org.springframework.util.Assert.isTrue;
 @ConfigurationProperties(prefix = "fio.client")
 public class FioClientSettings {
 
+    @ToString.Exclude
     private String token;
     private int maxConnections = 20;
     private int connectionTimeout = secondsToMillis(10);
