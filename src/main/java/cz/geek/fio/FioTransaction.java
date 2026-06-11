@@ -13,13 +13,17 @@ public class FioTransaction {
     private BigDecimal objem;
     private String mena;
     private String protiucet;
+    private String nazevProtiuctu;
     private String bankaKod;
     private String bankaNazev;
     private String uzivatelskaIdentifikace;
     private String typ;
     private String provedl;
+    private String zprava;
+    private String upresneni;
     private String komentar;
     private long idPokynu;
+    private String bic;
     private String variabilniSymbol;
     private String konstantniSymbol;
     private String specifickySymbol;

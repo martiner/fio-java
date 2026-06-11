@@ -90,6 +90,9 @@ class FioConversionService {
                 if (transaction.getColumn2() != null) {
                     target.setProtiucet(transaction.getColumn2().getValue());
                 }
+                if (transaction.getColumn10() != null) {
+                    target.setNazevProtiuctu(transaction.getColumn10().getValue());
+                }
                 if (transaction.getColumn3() != null) {
                     target.setBankaKod(transaction.getColumn3().getValue());
                 }
@@ -102,11 +105,20 @@ class FioConversionService {
                 if (transaction.getColumn12() != null) {
                     target.setBankaNazev(transaction.getColumn12().getValue());
                 }
+                if (transaction.getColumn16() != null) {
+                    target.setZprava(transaction.getColumn16().getValue());
+                }
                 if (transaction.getColumn17() != null) {
                     target.setIdPokynu(transaction.getColumn17().getValue());
                 }
+                if (transaction.getColumn18() != null) {
+                    target.setUpresneni(transaction.getColumn18().getValue());
+                }
                 if (transaction.getColumn25() != null) {
                     target.setKomentar(transaction.getColumn25().getValue());
+                }
+                if (transaction.getColumn26() != null) {
+                    target.setBic(transaction.getColumn26().getValue());
                 }
                 if (transaction.getColumn5() != null) {
                     target.setVariabilniSymbol(transaction.getColumn5().getValue());

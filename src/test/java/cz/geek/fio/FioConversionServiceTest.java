@@ -101,6 +101,64 @@ public class FioConversionServiceTest {
         assertNull(target.getTransactions().get(0).getTyp());
     }
 
+    @Test
+    public void shouldConvertNewColumns() throws Exception {
+        final AccountStatement source = new AccountStatement();
+        source.setInfo(new Info());
+        final TransactionList transactionList = new TransactionList();
+        final Transaction transaction = getTransaction("1", "2", "3");
+
+        final Column10 c10 = new Column10();
+        c10.setId(BigInteger.ONE);
+        c10.setName("column_10");
+        c10.setValue("nazev protiuctu");
+        transaction.setColumn10(c10);
+
+        final Column16 c16 = new Column16();
+        c16.setId(BigInteger.ONE);
+        c16.setName("column_16");
+        c16.setValue("zprava pro prijemce");
+        transaction.setColumn16(c16);
+
+        final Column18 c18 = new Column18();
+        c18.setId(BigInteger.ONE);
+        c18.setName("column_18");
+        c18.setValue("upresneni");
+        transaction.setColumn18(c18);
+
+        final Column26 c26 = new Column26();
+        c26.setId(BigInteger.ONE);
+        c26.setName("column_26");
+        c26.setValue("FIOBCZPPXXX");
+        transaction.setColumn26(c26);
+
+        transactionList.getTransaction().add(transaction);
+        source.setTransactionList(transactionList);
+
+        final FioAccountStatement target = service.convert(source, FioAccountStatement.class);
+        final FioTransaction tr = target.getTransactions().get(0);
+        assertEquals(tr.getNazevProtiuctu(), "nazev protiuctu");
+        assertEquals(tr.getZprava(), "zprava pro prijemce");
+        assertEquals(tr.getUpresneni(), "upresneni");
+        assertEquals(tr.getBic(), "FIOBCZPPXXX");
+    }
+
+    @Test
+    public void shouldConvertNullNewColumns() throws Exception {
+        final AccountStatement source = new AccountStatement();
+        source.setInfo(new Info());
+        final TransactionList transactionList = new TransactionList();
+        transactionList.getTransaction().add(getTransaction("1", "2", "3"));
+        source.setTransactionList(transactionList);
+
+        final FioAccountStatement target = service.convert(source, FioAccountStatement.class);
+        final FioTransaction tr = target.getTransactions().get(0);
+        assertNull(tr.getNazevProtiuctu());
+        assertNull(tr.getZprava());
+        assertNull(tr.getUpresneni());
+        assertNull(tr.getBic());
+    }
+
     private Transaction getTransaction(String vs, String ss, String ks) throws Exception {
         final Transaction transaction = new Transaction();
 
