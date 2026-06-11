@@ -25,7 +25,6 @@ public class FioClientSettings {
 
     @ToString.Exclude
     private String token;
-    private int maxConnections = 20;
     private int connectionTimeout = secondsToMillis(10);
     private int socketTimeout = secondsToMillis(60);
 
@@ -47,28 +46,6 @@ public class FioClientSettings {
      */
     public void setToken(String token) {
         this.token = token;
-    }
-
-    /**
-     * Set maximum number of connections used. This applies same for connections per host as for total connections.
-     * (As we assume FioClient connects to single host).
-     * <p>
-     * The default value is 20.
-     *
-     * @param maxConnections maximum number of connections used.
-     */
-    public void setMaxConnections(int maxConnections) {
-        isTrue(maxConnections > 0, "maxConnections must be greater than zero");
-        this.maxConnections = maxConnections;
-    }
-
-    /**
-     * Maximum number of connection used
-     *
-     * @return maximum number of connection used
-     */
-    public int getMaxConnections() {
-        return maxConnections;
     }
 
     /**
