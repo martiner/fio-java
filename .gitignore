@@ -2,3 +2,5 @@ target
 *.i??
 .idea
 test-output
+.claude/
+
