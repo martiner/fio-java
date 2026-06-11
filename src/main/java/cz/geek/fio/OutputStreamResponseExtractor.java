@@ -1,7 +1,7 @@
 package cz.geek.fio;
 
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.client.ResponseExtractor;
 
 import java.io.IOException;
@@ -19,6 +19,6 @@ class OutputStreamResponseExtractor implements ResponseExtractor<Integer> {
 
     @Override
     public Integer extractData(ClientHttpResponse response) throws IOException {
-        return FileCopyUtils.copy(response.getBody(), output);
+        return StreamUtils.copy(response.getBody(), output);
     }
 }
