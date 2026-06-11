@@ -3,6 +3,7 @@ package cz.geek.fio;
 import org.springframework.http.HttpStatusCode;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class FioRestException extends FioException {
 
@@ -47,7 +48,7 @@ public class FioRestException extends FioException {
      * Return the response body as a string.
      */
     public String getResponseBodyAsString() {
-        return new String(this.responseBody, this.responseCharset);
+        return new String(this.responseBody, this.responseCharset != null ? this.responseCharset : StandardCharsets.UTF_8);
     }
 
 }
