@@ -38,25 +38,27 @@
         <spring.version>7.0.6</spring.version>
         <spring-boot.version>4.0.5</spring-boot.version>
         <jadler.version>1.3.1</jadler.version>
-        <json-unit.version>1.5.3</json-unit.version>
         <cxf.version>4.1.0</cxf.version>
-        <slf4j.version>1.7.10</slf4j.version>
+        <slf4j.version>2.0.17</slf4j.version>
     </properties>
 
     <build>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.15.0</version>
                 <configuration>
-                    <source>${targetJdk}</source>
-                    <target>${targetJdk}</target>
+                    <release>${targetJdk}</release>
                 </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.5.5</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.17</version>
+                <version>3.5.5</version>
                 <executions>
                     <execution>
                         <goals>
@@ -139,7 +141,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.2.1</version>
+            <version>3.20.0</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -207,37 +209,13 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>6.8.21</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>1.9.5</version>
+            <version>7.12.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-core</artifactId>
-            <version>1.3</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-library</artifactId>
-            <version>1.3</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.javacrumbs.json-unit</groupId>
-            <artifactId>json-unit</artifactId>
-            <version>${json-unit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.javacrumbs.json-unit</groupId>
-            <artifactId>json-unit-core</artifactId>
-            <version>${json-unit.version}</version>
+            <artifactId>hamcrest</artifactId>
+            <version>3.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -256,12 +234,6 @@
             <groupId>net.jadler</groupId>
             <artifactId>jadler-all</artifactId>
             <version>${jadler.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.shazam</groupId>
-            <artifactId>shazamcrest</artifactId>
-            <version>0.11</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
