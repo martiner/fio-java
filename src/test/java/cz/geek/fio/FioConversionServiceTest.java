@@ -86,6 +86,21 @@ public class FioConversionServiceTest {
         return cal;
     }
 
+    @Test
+    public void shouldConvertTransactionWithoutColumn8() throws Exception {
+        final AccountStatement source = new AccountStatement();
+        source.setInfo(new Info());
+        final TransactionList transactionList = new TransactionList();
+        final Transaction transaction = getTransaction("1", "2", "3");
+        transaction.setColumn8(null);
+        transactionList.getTransaction().add(transaction);
+        source.setTransactionList(transactionList);
+
+        final FioAccountStatement target = service.convert(source, FioAccountStatement.class);
+        assertEquals(target.getTransactions().size(), 1);
+        assertNull(target.getTransactions().get(0).getTyp());
+    }
+
     private Transaction getTransaction(String vs, String ss, String ks) throws Exception {
         final Transaction transaction = new Transaction();
 

@@ -82,7 +82,9 @@ class FioConversionService {
                 target.setIdPohybu(transaction.getColumn22().getValue());
                 target.setDatum(toLocalDate(transaction.getColumn0().getValue()));
                 target.setObjem(transaction.getColumn1().getValue());
-                target.setTyp(transaction.getColumn8().getValue());
+                if (transaction.getColumn8() != null) {
+                    target.setTyp(transaction.getColumn8().getValue());
+                }
                 target.setMena(transaction.getColumn14().getValue());
 
                 if (transaction.getColumn2() != null) {
