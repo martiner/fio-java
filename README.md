@@ -48,17 +48,17 @@ FioAccountStatement statement = fio.getStatement();
 
 Export account statement with **the given number within the given year**:
 ```java
-fio.getStatement(2026, 1, ExportFormat.pdf, outputStream);
+fio.exportStatement(2026, 1, ExportFormat.pdf, outputStream);
 ```
 
 Export account statement within **the given period**:
 ```java
-fio.getStatement(LocalDate.of(2026, 1, 1), LocalDate.of(2026, 1, 31), ExportFormat.pdf, outputStream);
+fio.exportStatement(LocalDate.of(2026, 1, 1), LocalDate.of(2026, 1, 31), ExportFormat.pdf, outputStream);
 ```
 
 Export account statement from the **last download**:
 ```java
-fio.getStatement(ExportFormat.pdf, outputStream);
+fio.exportStatement(ExportFormat.pdf, outputStream);
 ```
 
 ### Set last downloaded statement
