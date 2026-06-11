@@ -27,7 +27,10 @@ class NamespaceIgnoringJaxb2HttpMessageConverter extends Jaxb2RootElementHttpMes
                 inputSource.setEncoding(charset.name());
             }
             try {
-                XMLReader xmlReader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
+                SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+                saxParserFactory.setNamespaceAware(true);
+                saxParserFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", !isSupportDtd());
+                XMLReader xmlReader = saxParserFactory.newSAXParser().getXMLReader();
                 String featureName = "http://xml.org/sax/features/external-general-entities";
                 xmlReader.setFeature(featureName, isProcessExternalEntities());
                 if (!isProcessExternalEntities()) {
@@ -43,7 +46,7 @@ class NamespaceIgnoringJaxb2HttpMessageConverter extends Jaxb2RootElementHttpMes
                 logger.warn("Processing of external entities could not be disabled", ex);
                 return source;
             } catch (ParserConfigurationException e) {
-                throw new RuntimeException("Unable to create parser", e);
+                throw new FioException("Unable to create parser", e);
             }
         }
         throw new IllegalArgumentException("Source must be of type StreamSource not " + source.getClass().getName());
