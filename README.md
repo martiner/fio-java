@@ -14,7 +14,7 @@ The *Fio Bank Java Client* is available in Maven Central Repository, to use it f
 <dependency>
     <groupId>cz.geek</groupId>
     <artifactId>fio-java</artifactId>
-    <version>0.5.0</version>
+    <version>0.5.1</version>
 </dependency>
 ```
 
