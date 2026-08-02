@@ -47,7 +47,7 @@ Key pieces:
 
 - **`FioConversionService`** — maps generated JAXB types to the public API types (`FioAccountStatement`, `FioAccountInfo`, `FioTransaction`). The Fio statement format encodes transaction fields as numbered columns (`Column0`..`Column26`); `TransactionConverter` maps each column to a named (Czech) field on `FioTransaction`. **To expose a new transaction attribute, add the `getColumnNN()` mapping here** and a field on `FioTransaction`. Most columns are nullable and guarded with null checks.
 
-- **Error handling** — `FioErrorHandler` (a `DefaultResponseErrorHandler`) turns non-2xx responses into `FioRestException`; HTTP 409 specifically becomes `FioTooMuchRequestsException` (Fio's rate-limit signal). All client exceptions extend `FioException`.
+- **Error handling** — `FioErrorHandler` (a `DefaultResponseErrorHandler`) turns non-2xx responses into `FioRestException`; HTTP 409 specifically becomes `FioTooMuchRequestsException` (Fio's rate-limit signal), a deprecated subclass of `FioTooManyRequestsException` kept thrown for binary compatibility — it goes away with the next major version. All client exceptions extend `FioException`.
 
 - **Spring Boot** — `FioClientAutoConfiguration` (registered in `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`) creates a `FioClient` bean from `FioClientSettings`, which is `@ConfigurationProperties(prefix = "fio.client")`. Set `fio.client.token` (plus optional `connectionTimeout`/`socketTimeout`) to autoconfigure. The token is excluded from `toString()` to avoid leaking it into logs.
 
