@@ -16,7 +16,11 @@ public class FioRestException extends FioException {
     private final Charset responseCharset;
 
     public FioRestException(final HttpStatusCode statusCode, final String statusText, final byte[] responseBody, final Charset responseCharset) {
-        super(statusCode.value() + " " + statusText);
+        this(statusCode.value() + " " + statusText, statusCode, statusText, responseBody, responseCharset);
+    }
+
+    protected FioRestException(final String message, final HttpStatusCode statusCode, final String statusText, final byte[] responseBody, final Charset responseCharset) {
+        super(message);
         this.statusCode = statusCode.value();
         this.statusText = statusText;
         this.responseBody = responseBody;

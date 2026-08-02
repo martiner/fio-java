@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.math.BigInteger;
+import java.nio.charset.Charset;
 import java.time.LocalDate;
 
 import static net.jadler.Jadler.closeJadler;
@@ -15,6 +16,9 @@ import static net.jadler.Jadler.port;
 import static net.jadler.Jadler.verifyThatRequest;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.startsWith;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
+import static org.testng.Assert.expectThrows;
 
 public class FioClientTest {
 
@@ -149,6 +153,87 @@ public class FioClientTest {
     public void shouldThrowFioRestExceptionOn500() {
         onRequest().havingMethodEqualTo("GET").respond().withStatus(500);
         fio.setLast(LocalDate.of(2016, 1, 1));
+    }
+
+    @Test
+    public void shouldThrowFioErrorResponseExceptionOn500WithErrorBody() throws Exception {
+        onRequest()
+                .havingMethodEqualTo("GET")
+                .respond()
+                .withBody(ResourceUtils.readFromResource("/error-response.xml"))
+                .withContentType("text/xml; charset=UTF-8")
+                .withStatus(500);
+
+        FioErrorResponseException e = expectThrows(FioErrorResponseException.class, () -> fio.setLast(LocalDate.of(2016, 1, 1)));
+        assertEquals(e.getErrorCode(), Integer.valueOf(21));
+        assertEquals(e.getStatus(), "error");
+        assertEquals(e.getErrorMessage(), "Výpis neexistuje");
+        assertEquals(e.getMessage(), "500 Internal Server Error: Výpis neexistuje (errorCode=21, status=error)");
+    }
+
+    @Test
+    public void shouldParseErrorBodyDeclaringNonUtf8Encoding() {
+        onRequest()
+                .havingMethodEqualTo("GET")
+                .respond()
+                .withBody(("<?xml version=\"1.0\" encoding=\"windows-1250\"?><response><result><errorCode>21</errorCode>"
+                        + "<status>error</status><message>Výpis neexistuje</message></result></response>")
+                        .getBytes(Charset.forName("windows-1250")))
+                .withContentType("text/xml")
+                .withStatus(500);
+
+        FioErrorResponseException e = expectThrows(FioErrorResponseException.class, () -> fio.setLast(LocalDate.of(2016, 1, 1)));
+        assertEquals(e.getErrorMessage(), "Výpis neexistuje");
+    }
+
+    @Test
+    public void shouldHaveNullErrorCodeWhenMissingInErrorBody() {
+        onRequest()
+                .havingMethodEqualTo("GET")
+                .respond()
+                .withBody("<response><result><status>error</status><message>Výpis neexistuje</message></result></response>")
+                .withContentType("text/xml; charset=UTF-8")
+                .withStatus(500);
+
+        FioErrorResponseException e = expectThrows(FioErrorResponseException.class, () -> fio.setLast(LocalDate.of(2016, 1, 1)));
+        assertNull(e.getErrorCode());
+    }
+
+    @Test
+    public void shouldThrowFioRestExceptionOn500WithUnparsableBody() {
+        onRequest()
+                .havingMethodEqualTo("GET")
+                .respond()
+                .withBody("<html><body>Internal Server Error</body></html>")
+                .withContentType("text/html")
+                .withStatus(500);
+
+        assertEquals(expectThrows(FioRestException.class, () -> fio.setLast(LocalDate.of(2016, 1, 1))).getClass(), FioRestException.class);
+    }
+
+    @Test
+    public void shouldThrowFioRestExceptionOn500WithDoctypeInBody() {
+        onRequest()
+                .havingMethodEqualTo("GET")
+                .respond()
+                .withBody("<!DOCTYPE response [<!ENTITY expanded \"gotcha\">]><response><result><errorCode>21</errorCode>"
+                        + "<status>error</status><message>&expanded;</message></result></response>")
+                .withContentType("text/xml; charset=UTF-8")
+                .withStatus(500);
+
+        assertEquals(expectThrows(FioRestException.class, () -> fio.setLast(LocalDate.of(2016, 1, 1))).getClass(), FioRestException.class);
+    }
+
+    @Test
+    public void shouldThrowFioRestExceptionOn500WithEmptyResult() {
+        onRequest()
+                .havingMethodEqualTo("GET")
+                .respond()
+                .withBody("<response><result/></response>")
+                .withContentType("text/xml; charset=UTF-8")
+                .withStatus(500);
+
+        assertEquals(expectThrows(FioRestException.class, () -> fio.setLast(LocalDate.of(2016, 1, 1))).getClass(), FioRestException.class);
     }
 
     @AfterMethod
