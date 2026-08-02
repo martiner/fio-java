@@ -3,4 +3,9 @@ target
 .idea
 test-output
 .claude/
+.classpath
+.factorypath
+.project
+.settings/
+bin/
 
