@@ -27,7 +27,9 @@ public class FioClientTest {
     @BeforeMethod
     public void commonSetUp() {
         initJadler();
-        fio = new FioClient("http", "localhost", port(), new FioClientSettings("token"), null);
+        FioClientSettings settings = new FioClientSettings("token");
+        settings.setUrl("http://localhost:" + port());
+        fio = new FioClient(settings);
     }
 
     @Test

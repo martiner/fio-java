@@ -4,7 +4,6 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,28 +69,18 @@ public class FioClient {
      * @param builder optional builder
      */
     public FioClient(@NonNull FioClientSettings settings, RestTemplateBuilder builder) {
-        this("https", "fioapi.fio.cz", null, settings, builder);
-    }
-
-    FioClient(String protocol, String host, Integer port, FioClientSettings settings, RestTemplateBuilder builder) {
-        final UriComponentsBuilder base = UriComponentsBuilder.newInstance()
-                .scheme(notEmpty(protocol))
-                .host(notEmpty(host));
-        if (port != null) {
-            base.port(port);
-        }
         this.token = notEmpty(settings.getToken());
-        this.restTemplate = createRestTemplate(base, settings, builder);
+        this.restTemplate = createRestTemplate(settings, builder);
         this.statementExtractor = statementExtractor(new NamespaceIgnoringJaxb2HttpMessageConverter(), new FioConversionService());
-        log.info("Fio client configured {} {}", base.toUriString(), restTemplate.getRequestFactory().getClass().getSimpleName());
+        log.info("Fio client configured {} {}", settings.getUrl(), restTemplate.getRequestFactory().getClass().getSimpleName());
     }
 
-    private RestTemplate createRestTemplate(UriComponentsBuilder base, FioClientSettings settings, RestTemplateBuilder builder) {
+    private RestTemplate createRestTemplate(FioClientSettings settings, RestTemplateBuilder builder) {
         return Optional.ofNullable(builder).orElseGet(RestTemplateBuilder::new)
                 .errorHandler(new FioErrorHandler())
                 .connectTimeout(millisToDuration(settings.getConnectionTimeout()))
                 .readTimeout(millisToDuration(settings.getSocketTimeout()))
-                .rootUri(base.toUriString())
+                .rootUri(settings.getUrl())
                 .additionalInterceptors((request, body, execution) -> {
                     request.getHeaders().set(USER_AGENT, USER_AGENT_VALUE);
                     return execution.execute(request, body);

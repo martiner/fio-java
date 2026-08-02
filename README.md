@@ -27,6 +27,11 @@ The provided autoconfiguration will create the `FioClient` bean with the `fio.cl
 FioClient fio = new FioClient("yourtoken");
 ```
 
+### Point the client elsewhere
+
+The `fio.client.url` property (or `FioClientSettings#setUrl`) overrides the API base url, e.g. to run the client
+against a mock server. It defaults to `https://fioapi.fio.cz`.
+
 ### Get account statement
 
 Get account statement with **the given number within the given year**:

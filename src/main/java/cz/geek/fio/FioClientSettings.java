@@ -8,6 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
+import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
 import static org.apache.commons.lang3.Validate.notEmpty;
 import static org.springframework.util.Assert.isTrue;
 
@@ -23,8 +24,11 @@ import static org.springframework.util.Assert.isTrue;
 @ConfigurationProperties(prefix = "fio.client")
 public class FioClientSettings {
 
+    private static final String DEFAULT_URL = "https://fioapi.fio.cz";
+
     @ToString.Exclude
     private String token;
+    private String url = DEFAULT_URL;
     private int connectionTimeout = secondsToMillis(10);
     private int socketTimeout = secondsToMillis(60);
 
@@ -46,6 +50,23 @@ public class FioClientSettings {
      */
     public void setToken(String token) {
         this.token = token;
+    }
+
+    /**
+     * Sets the API base url. Blank value falls back to the default {@value #DEFAULT_URL}.
+     *
+     * @param url API base url
+     */
+    public void setUrl(String url) {
+        this.url = defaultIfBlank(url, DEFAULT_URL);
+    }
+
+    /**
+     * API base url
+     * @return API base url
+     */
+    public String getUrl() {
+        return url;
     }
 
     /**
