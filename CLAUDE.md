@@ -54,4 +54,5 @@ Key pieces:
 ## Conventions
 
 - Public domain types (`FioTransaction`, `FioAccountInfo`) use **Czech field names** matching Fio's terminology (`objem`, `protiucet`, `variabilniSymbol`, ...). Keep that naming for new fields.
+- Prefer Lombok over hand-written accessors — `@Data` for data holders, `@Getter` when only accessors are needed.
 - Unit tests use **TestNG** + **Jadler** (HTTP mock); fixtures are XML files under `src/test/resources` loaded via `ResourceUtils`.
